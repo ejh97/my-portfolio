@@ -106,9 +106,29 @@ export default async function handler(req) {
   let body;
   try { body = await req.json(); } catch { body = {}; }
 
-  const { action, messages, ticker, headline, apiKey } = body;
+  const { action, messages, ticker, headline, headlines, apiKey } = body;
   const key = apiKey || (typeof process !== 'undefined' ? process.env?.ANTHROPIC_API_KEY : null);
   const hasClaude = !!key;
+
+  // News translation
+  if (action === 'translate-news') {
+    const items = Array.isArray(headlines) ? headlines.slice(0, 10) : [];
+    if (!items.length) return new Response(JSON.stringify({ texts: [] }), { headers: CORS });
+    if (!hasClaude) {
+      return new Response(JSON.stringify({
+        texts: items.map(h => `[번역 미리보기] ${h.slice(0, 30)}... (API 키 설정 후 실제 번역 가능)`),
+        mock: true,
+      }), { headers: CORS });
+    }
+    try {
+      const prompt = `다음 영어 뉴스 헤드라인들을 자연스러운 한국어로 번역해줘. JSON 배열 형식으로만 응답해 (다른 텍스트, 마크다운 없이):\n${JSON.stringify(items)}`;
+      const raw = await callClaude(key, [{ role: 'user', content: prompt }], '당신은 금융 뉴스 번역 전문가입니다. JSON 배열만 반환합니다.');
+      const texts = JSON.parse(raw.trim().replace(/^```json\n?/,'').replace(/\n?```$/,''));
+      return new Response(JSON.stringify({ texts: Array.isArray(texts) ? texts : items }), { headers: CORS });
+    } catch (e) {
+      return new Response(JSON.stringify({ texts: items, error: e.message }), { headers: CORS });
+    }
+  }
 
   // Portfolio analysis
   if (action === 'analysis') {
