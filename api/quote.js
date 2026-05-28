@@ -32,15 +32,32 @@ export default async function handler(req) {
     }
   }
 
-  // 주가: 병렬로 한번에 요청
+  // 뉴스
+  if (type === 'news') {
+    const symbol = symbols[0] || '';
+    try {
+      const today = new Date();
+      const from  = new Date(today - 7 * 24 * 60 * 60 * 1000);
+      const fmt   = d => d.toISOString().split('T')[0];
+      const url   = `https://finnhub.io/api/v1/company-news?symbol=${symbol}&from=${fmt(from)}&to=${fmt(today)}&token=${FINNHUB_KEY}`;
+      const res   = await fetch(url);
+      const data  = await res.json();
+      const news  = Array.isArray(data) ? data.slice(0, 10) : [];
+      return new Response(JSON.stringify({ news }), { headers: CORS });
+    } catch(e) {
+      return new Response(JSON.stringify({ news: [] }), { headers: CORS });
+    }
+  }
+
+  // 주가: 병렬 요청
   try {
     const fetches = symbols.map(sym =>
       fetch(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${FINNHUB_KEY}`)
         .then(r => r.json())
         .then(d => ({
           symbol: sym,
-          regularMarketPrice: d.c || 0,           // 현재가
-          regularMarketChangePercent: d.dp || 0,  // 등락률(%)
+          regularMarketPrice: d.c || 0,
+          regularMarketChangePercent: d.dp || 0,
         }))
         .catch(() => ({ symbol: sym, regularMarketPrice: 0, regularMarketChangePercent: 0 }))
     );
