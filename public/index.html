@@ -109,6 +109,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .modal-chart{width:100%;height:250px;border:none;display:block}
 .modal-links{display:flex;gap:10px;padding:12px 16px 4px}
 .modal-link{flex:1;text-align:center;padding:10px;background:#f2f2f7;border-radius:10px;font-size:13px;font-weight:600;color:#007aff;text-decoration:none}
+.ai-action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ai-action-btn{background:#fff;border:none;border-radius:14px;padding:16px 12px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.07);text-align:left;transition:opacity .15s}
+.ai-action-btn:active{opacity:.7}
+.ai-action-icon{font-size:24px;margin-bottom:6px}
+.ai-action-label{font-size:13px;font-weight:700;color:#1c1c1e;margin-bottom:2px}
+.ai-action-desc{font-size:11px;color:#8e8e93;line-height:1.4}
+.ai-result-card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);display:none}
+.ai-result-card.show{display:block}
+.ai-result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ai-result-title{font-size:13px;font-weight:700;color:#8e8e93;text-transform:uppercase;letter-spacing:.5px}
+.ai-mock-badge{font-size:11px;color:#ff9500;background:#fff8ee;padding:2px 8px;border-radius:10px;font-weight:600}
+.ai-result-body{font-size:13px;color:#1c1c1e;line-height:1.7}
+.ai-result-body strong{font-weight:700;color:#1c1c1e}
+.ai-result-body h3,.ai-result-body h2{font-size:14px;font-weight:700;margin:10px 0 4px;color:#1c1c1e}
+.ai-loading{text-align:center;padding:24px;color:#8e8e93;font-size:13px}
+.ai-spinner{display:inline-block;width:20px;height:20px;border:2px solid #e5e5ea;border-top-color:#007aff;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:8px}
+.chat-wrap{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.07);margin-bottom:12px}
+.chat-msgs{padding:14px;max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:82%;padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.55}
+.chat-msg.user{align-self:flex-end;background:#007aff;color:#fff;border-bottom-right-radius:4px}
+.chat-msg.ai{align-self:flex-start;background:#f2f2f7;color:#1c1c1e;border-bottom-left-radius:4px}
+.chat-msg.typing{color:#8e8e93;font-style:italic}
+.chat-input-row{display:flex;gap:8px;padding:10px 12px;border-top:.5px solid #f2f2f7;background:#fafafa}
+.chat-input{flex:1;border:.5px solid #e5e5ea;border-radius:20px;padding:9px 14px;font-size:13px;outline:none;background:#fff;-webkit-appearance:none}
+.chat-input:focus{border-color:#007aff}
+.chat-send{background:#007aff;color:#fff;border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0}
+.chat-send:disabled{background:#c7c7cc;pointer-events:none}
+.ai-key-row{background:#fff8ee;border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:12px;color:#8e8e93;line-height:1.6}
+.ai-key-row a{color:#007aff;text-decoration:none}
+.news-summary-btn{margin-top:8px;background:none;border:.5px solid #007aff;border-radius:12px;padding:5px 12px;font-size:11px;font-weight:600;color:#007aff;cursor:pointer;display:flex;align-items:center;gap:4px}
+.news-summary-btn:active{opacity:.7}
+.news-summary-box{background:#f2f2f7;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:12px;color:#1c1c1e;line-height:1.6;display:none}
+.news-summary-box.show{display:block}
 </style>
 </head>
 <body>
@@ -133,6 +166,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="tab" onclick="sw('s')">섹터</button>
   <button class="tab" onclick="sw('r')">리스크</button>
   <button class="tab" onclick="sw('n')">뉴스</button>
+  <button class="tab" onclick="sw('a')">AI</button>
 </div>
 <div id="th" class="sec on">
   <div class="mgrid">
@@ -177,6 +211,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="ctitle" id="newsCardTitle">뉴스</div>
     <div id="newsList"><div class="news-empty">위에서 종목을 선택해주세요</div></div>
     <a class="news-open-btn" id="newsMoreBtn" href="#" target="_blank" style="display:none">더 보기 ↗</a>
+  </div>
+</div>
+<div id="ta" class="sec">
+  <div class="ai-key-row">
+    <strong>AI 분석 모드</strong> · Claude API 키 없이도 데모로 사용 가능.<br>
+    실제 AI 분석을 원하면 Vercel 환경변수 <code>ANTHROPIC_API_KEY</code>를 설정하거나
+    <a href="#" onclick="toggleApiKeyInput();return false">여기서 직접 입력</a>하세요.
+    <div id="apiKeyInputRow" style="display:none;margin-top:8px">
+      <input id="apiKeyInput" type="password" placeholder="sk-ant-..." style="width:100%;border:.5px solid #e5e5ea;border-radius:8px;padding:8px 10px;font-size:12px;outline:none">
+      <button onclick="saveApiKey()" style="margin-top:6px;background:#007aff;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">저장</button>
+    </div>
+  </div>
+  <div class="ai-action-row">
+    <button class="ai-action-btn" onclick="runAI('analysis')">
+      <div class="ai-action-icon">📊</div>
+      <div class="ai-action-label">포트폴리오 분석</div>
+      <div class="ai-action-desc">강점·리스크·리밸런싱 종합</div>
+    </button>
+    <button class="ai-action-btn" onclick="runAI('short')">
+      <div class="ai-action-icon">📉</div>
+      <div class="ai-action-label">공매도 포지션 검토</div>
+      <div class="ai-action-desc">고위험 종목 숏 압력 분석</div>
+    </button>
+  </div>
+  <div class="ai-result-card" id="aiResultCard">
+    <div class="ai-result-header">
+      <span class="ai-result-title" id="aiResultTitle">분석 결과</span>
+      <span class="ai-mock-badge" id="aiMockBadge" style="display:none">데모</span>
+    </div>
+    <div class="ai-result-body" id="aiResultBody"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">AI 포트폴리오 채팅</div>
+    <div class="chat-wrap">
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-msg ai">안녕하세요! 포트폴리오에 대해 무엇이든 물어보세요. 예: "IONQ 지금 팔아야 해?", "리스크 줄이려면?"</div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" placeholder="질문 입력..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send" id="chatSend" onclick="sendChat()">전송</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
@@ -241,9 +317,9 @@ if(!API_BASE && location.hostname.includes('vercel.app')) {
 }
 
 function sw(tab){
-  const map={h:'th',s:'ts2',r:'tr',n:'tn'};
+  const map={h:'th',s:'ts2',r:'tr',n:'tn',a:'ta'};
   document.querySelectorAll('.sec').forEach(el=>el.classList.remove('on','visible'));
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['h','s','r','n'][i]===tab));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['h','s','r','n','a'][i]===tab));
   const t=document.getElementById(map[tab]);
   t.classList.add('on');
   requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('visible')));
@@ -374,12 +450,17 @@ async function loadNews(ticker){
     const data=await res.json();
     const news=data.news||[];
     if(!news.length){listEl.innerHTML='<div class="news-empty">최근 뉴스가 없습니다</div>';return;}
-    listEl.innerHTML=news.map(item=>{
+    listEl.innerHTML=news.map((item,i)=>{
       const time=timeAgo(new Date(item.datetime*1000));
-      return `<div class="news-item" onclick="window.open('${(item.url||'#').replace(/'/g,"\\'")}','_blank')">
+      const safeUrl=(item.url||'#').replace(/'/g,"\\'");
+      const safeHl=(item.headline||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+      const boxId=`newsSummaryBox_${ticker}_${i}`;
+      return `<div class="news-item">
         <div class="news-src"><span class="news-src-dot"></span>${item.source||''}</div>
-        <div class="news-title">${item.headline||''}</div>
+        <div class="news-title" onclick="window.open('${safeUrl}','_blank')">${item.headline||''}</div>
         <div class="news-time">${time}</div>
+        <button class="news-summary-btn" onclick="summarizeNewsItem('${ticker}','${safeHl}','${boxId}')">✦ AI 요약</button>
+        <div class="news-summary-box" id="${boxId}"></div>
       </div>`;
     }).join('');
     moreBtn.href=`https://finance.yahoo.com/quote/${ticker}/news/`;
@@ -396,6 +477,108 @@ function timeAgo(d){const s=(Date.now()-d)/1000;return s<3600?Math.round(s/60)+'
 
 renderStocks();
 fetchAll();
+
+// ── AI 기능 ──────────────────────────────────────────────────────────────
+function getStoredKey(){return localStorage.getItem('anthropic_key')||'';}
+function toggleApiKeyInput(){
+  const row=document.getElementById('apiKeyInputRow');
+  row.style.display=row.style.display==='none'?'block':'none';
+  if(row.style.display==='block')document.getElementById('apiKeyInput').value=getStoredKey();
+}
+function saveApiKey(){
+  const v=document.getElementById('apiKeyInput').value.trim();
+  if(v)localStorage.setItem('anthropic_key',v);
+  document.getElementById('apiKeyInputRow').style.display='none';
+  alert('저장됨. 이제 AI 분석을 실행해보세요.');
+}
+
+function mdToHtml(md){
+  return md
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^- (.+)$/gm,'<div style="padding-left:12px;margin:2px 0">• $1</div>')
+    .replace(/\n\n/g,'<br><br>')
+    .replace(/\n/g,'<br>');
+}
+
+async function runAI(action){
+  const card=document.getElementById('aiResultCard');
+  const body=document.getElementById('aiResultBody');
+  const title=document.getElementById('aiResultTitle');
+  const mock=document.getElementById('aiMockBadge');
+  const labels={analysis:'포트폴리오 종합 분석',short:'공매도 포지션 검토'};
+  title.textContent=labels[action]||'분석 결과';
+  body.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div><br>AI 분석 중...</div>';
+  card.classList.add('show');
+  mock.style.display='none';
+  card.scrollIntoView({behavior:'smooth',block:'nearest'});
+
+  try{
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action,apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    body.innerHTML=mdToHtml(data.text||'결과를 가져오지 못했습니다.');
+    if(data.mock)mock.style.display='inline';
+  }catch(e){
+    body.textContent='오류: '+e.message;
+  }
+}
+
+const chatHistory=[];
+async function sendChat(){
+  const input=document.getElementById('chatInput');
+  const btn=document.getElementById('chatSend');
+  const msgs=document.getElementById('chatMsgs');
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';btn.disabled=true;
+
+  chatHistory.push({role:'user',content:text});
+  msgs.innerHTML+=`<div class="chat-msg user">${text}</div>`;
+  msgs.innerHTML+=`<div class="chat-msg ai typing" id="typingMsg">AI가 입력 중...</div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+
+  try{
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'chat',messages:chatHistory,apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    const reply=data.text||'응답을 가져오지 못했습니다.';
+    chatHistory.push({role:'assistant',content:reply});
+    document.getElementById('typingMsg').remove();
+    msgs.innerHTML+=`<div class="chat-msg ai">${mdToHtml(reply)}</div>`;
+  }catch(e){
+    document.getElementById('typingMsg').textContent='오류: '+e.message;
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+  btn.disabled=false;
+  input.focus();
+}
+
+async function summarizeNewsItem(ticker,headline,boxId){
+  const box=document.getElementById(boxId);
+  if(!box)return;
+  if(box.classList.contains('show')){box.classList.remove('show');return;}
+  box.classList.add('show');
+  box.textContent='AI 요약 중...';
+  try{
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'news-summary',ticker,headline,apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    box.innerHTML=(data.mock?'<em style="color:#ff9500">[데모] </em>':'')+mdToHtml(data.text);
+  }catch(e){
+    box.textContent='요약 실패';
+  }
+}
 </script>
 </body>
 </html>
