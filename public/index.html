@@ -142,6 +142,41 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .news-summary-btn:active{opacity:.7}
 .news-summary-box{background:#f2f2f7;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:12px;color:#1c1c1e;line-height:1.6;display:none}
 .news-summary-box.show{display:block}
+.val-picker{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.val-ticker-btn{padding:6px 14px;border-radius:20px;border:.5px solid #e5e5ea;background:#fff;font-size:13px;font-weight:600;color:#8e8e93;cursor:pointer;transition:all .15s}
+.val-ticker-btn.on{background:#5856d6;color:#fff;border-color:#5856d6}
+.val-pos-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.val-pos-name{font-size:16px;font-weight:700;color:#1c1c1e}
+.val-pos-sub{font-size:12px;color:#8e8e93;margin-top:2px}
+.val-pos-usd{font-size:20px;font-weight:700;color:#1c1c1e;text-align:right}
+.val-pos-krw{font-size:12px;color:#8e8e93;margin-top:2px;text-align:right}
+.val-shares-row{display:flex;align-items:center;gap:8px;background:#f2f2f7;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.val-shares-label{font-size:12px;color:#8e8e93;flex:1}
+.val-shares-input{width:80px;border:.5px solid #e5e5ea;border-radius:8px;padding:6px 10px;font-size:14px;font-weight:700;text-align:center;outline:none;background:#fff}
+.val-shares-input:focus{border-color:#5856d6}
+.val-shares-save{background:#5856d6;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.val-mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.val-mc{background:#f2f2f7;border-radius:10px;padding:12px}
+.val-ml{font-size:11px;color:#8e8e93;margin-bottom:4px}
+.val-mv{font-size:18px;font-weight:700;color:#1c1c1e}
+.val-mv.g{color:#34c759}.val-mv.r{color:#ff3b30}
+.val-msub{font-size:10px;color:#8e8e93;margin-top:2px}
+.val-range-wrap{margin:12px 0}
+.val-range-labels{font-size:11px;color:#8e8e93;display:flex;justify-content:space-between;margin-bottom:6px}
+.val-range-bar{height:6px;background:linear-gradient(90deg,#34c759 0%,#ff9500 50%,#ff3b30 100%);border-radius:3px;position:relative}
+.val-range-cursor{position:absolute;top:-4px;width:14px;height:14px;background:#fff;border:2.5px solid #1c1c1e;border-radius:50%;transform:translateX(-50%);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.val-eps-row{display:flex;gap:6px;margin-top:8px}
+.val-eps-item{flex:1;text-align:center;background:#f2f2f7;border-radius:8px;padding:8px 4px}
+.val-eps-period{font-size:9px;color:#8e8e93;margin-bottom:3px}
+.val-eps-actual{font-size:12px;font-weight:700}
+.val-eps-actual.g{color:#34c759}.val-eps-actual.r{color:#ff3b30}
+.val-eps-beat{font-size:9px;margin-top:2px}
+.val-ai-btn{width:100%;background:#5856d6;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:14px;transition:opacity .15s}
+.val-ai-btn:active{opacity:.8}
+.val-ai-result{background:#f0f0ff;border-radius:12px;padding:14px;margin-top:10px;font-size:13px;color:#1c1c1e;line-height:1.7;display:none}
+.val-ai-result.show{display:block}
+.val-empty{text-align:center;padding:30px;color:#8e8e93;font-size:14px}
+.val-loading{text-align:center;padding:30px;color:#8e8e93;font-size:13px}
 </style>
 </head>
 <body>
@@ -167,6 +202,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="tab" onclick="sw('r')">리스크</button>
   <button class="tab" onclick="sw('n')">뉴스</button>
   <button class="tab" onclick="sw('a')">AI</button>
+  <button class="tab" onclick="sw('v')">밸류</button>
 </div>
 <div id="th" class="sec on">
   <div class="mgrid">
@@ -255,6 +291,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
 </div>
+<div id="tv" class="sec">
+  <div class="card">
+    <div class="ctitle">종목 선택 — 주식수량·밸류에이션 분석</div>
+    <div class="val-picker" id="valPicker"></div>
+  </div>
+  <div id="valContent"><div class="val-empty">위에서 종목을 선택해주세요</div></div>
+</div>
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -317,15 +360,16 @@ if(!API_BASE && location.hostname.includes('vercel.app')) {
 }
 
 function sw(tab){
-  const map={h:'th',s:'ts2',r:'tr',n:'tn',a:'ta'};
+  const map={h:'th',s:'ts2',r:'tr',n:'tn',a:'ta',v:'tv'};
   document.querySelectorAll('.sec').forEach(el=>el.classList.remove('on','visible'));
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['h','s','r','n','a'][i]===tab));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['h','s','r','n','a','v'][i]===tab));
   const t=document.getElementById(map[tab]);
   t.classList.add('on');
   requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('visible')));
   if(tab==='s')renderSector();
   if(tab==='r')renderBeta();
   if(tab==='n')initNewsPicker();
+  if(tab==='v')initValuation();
 }
 requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById('th').classList.add('visible')));
 
@@ -559,6 +603,135 @@ async function sendChat(){
   msgs.scrollTop=msgs.scrollHeight;
   btn.disabled=false;
   input.focus();
+}
+
+// ── 밸류에이션 ─────────────────────────────────────────────────────────────
+function getShares(){try{return JSON.parse(localStorage.getItem('shares')||'{}');}catch{return{};}}
+function saveSharesStore(obj){localStorage.setItem('shares',JSON.stringify(obj));}
+
+function initValuation(){
+  const picker=document.getElementById('valPicker');
+  if(picker.children.length>0)return;
+  picker.innerHTML=S.map(s=>`<button class="val-ticker-btn" onclick="selectValTicker('${s.t}')">${s.t}</button>`).join('');
+}
+
+function selectValTicker(ticker){
+  document.querySelectorAll('.val-ticker-btn').forEach(b=>b.classList.toggle('on',b.textContent===ticker));
+  loadValuation(ticker);
+}
+
+async function loadValuation(ticker){
+  const content=document.getElementById('valContent');
+  const s=S.find(x=>x.t===ticker);if(!s)return;
+  content.innerHTML='<div class="card"><div class="val-loading"><div class="ai-spinner"></div><br>데이터 불러오는 중...</div></div>';
+  try{
+    const res=await fetch(`${API_BASE}/api/valuation?symbol=${ticker}`);
+    const data=await res.json();
+    const pd=prices[ticker];
+    renderValuation(ticker,s,pd?.price||0,getShares()[ticker]||0,data);
+  }catch(e){
+    content.innerHTML=`<div class="card"><div class="val-empty">로드 실패: ${e.message}</div></div>`;
+  }
+}
+
+function renderValuation(ticker,s,price,shares,data){
+  const content=document.getElementById('valContent');
+  const m=data.metrics||{},p=data.profile||{},e=data.earnings||[],sh=data.shortData||[];
+  const pe=m.peBasicExclExtraTTM,ps=m.psTTM,pb=m.pbAnnual,ev=m.evEbitdaTTM;
+  const roe=m.roeTTM,rev=m.revenueGrowthTTMYoy;
+  const h52=m['52WeekHigh'],l52=m['52WeekLow'];
+  const mktCap=p.marketCapitalization;
+  const latestShort=sh[sh.length-1];
+  const posUsd=price&&shares?(price*shares):0;
+
+  const rangePct=(h52&&l52&&price)?Math.max(0,Math.min(100,((price-l52)/(h52-l52))*100)):null;
+
+  const epsHtml=e.slice(0,4).map(q=>{
+    const beat=(q.actual!=null&&q.estimate!=null)?q.actual>=q.estimate:null;
+    const cls=beat===true?'g':beat===false?'r':'';
+    const beatLabel=beat===true?'▲예상↑':beat===false?'▼예상↓':'';
+    return `<div class="val-eps-item">
+      <div class="val-eps-period">${(q.period||'').slice(0,7)}</div>
+      <div class="val-eps-actual ${cls}">${q.actual!=null?'$'+q.actual.toFixed(2):'N/A'}</div>
+      <div class="val-eps-beat" style="color:${beat===true?'#34c759':beat===false?'#ff3b30':'#8e8e93'}">${beatLabel}</div>
+    </div>`;
+  }).join('');
+
+  content.innerHTML=`<div class="card">
+    <div class="val-pos-hdr">
+      <div>
+        <div class="val-pos-name">${ticker} · ${s.n}</div>
+        <div class="val-pos-sub">${s.sec} · β${s.b} · 비중 ${s.w}%</div>
+      </div>
+      <div>
+        ${price?`<div class="val-pos-usd">$${price.toFixed(2)}</div>`:''}
+        ${posUsd?`<div class="val-pos-krw">≈ ₩${Math.round(posUsd*fx).toLocaleString()}</div>`:''}
+      </div>
+    </div>
+
+    <div class="val-shares-row">
+      <span class="val-shares-label">📦 보유 수량 입력</span>
+      <input class="val-shares-input" type="number" id="sharesInput_${ticker}" value="${shares||''}" placeholder="0주" min="0">
+      <button class="val-shares-save" onclick="saveShareCount('${ticker}')">저장</button>
+      ${shares&&price?`<span style="font-size:12px;color:#5856d6;font-weight:700">= $${posUsd.toFixed(0)}</span>`:''}
+    </div>
+
+    <div class="ctitle" style="margin-bottom:8px">밸류에이션 지표</div>
+    <div class="val-mgrid">
+      <div class="val-mc"><div class="val-ml">P/E (TTM)</div><div class="val-mv">${pe!=null?pe.toFixed(1):'—'}</div><div class="val-msub">주가수익비율</div></div>
+      <div class="val-mc"><div class="val-ml">P/S (TTM)</div><div class="val-mv">${ps!=null?ps.toFixed(1):'—'}</div><div class="val-msub">주가매출비율</div></div>
+      <div class="val-mc"><div class="val-ml">P/B</div><div class="val-mv">${pb!=null?pb.toFixed(1):'—'}</div><div class="val-msub">주가순자산비율</div></div>
+      <div class="val-mc"><div class="val-ml">EV/EBITDA</div><div class="val-mv">${ev!=null?ev.toFixed(1):'—'}</div><div class="val-msub">기업가치배수</div></div>
+      <div class="val-mc"><div class="val-ml">ROE</div><div class="val-mv ${roe!=null?(roe>0?'g':'r'):''}">${roe!=null?roe.toFixed(1)+'%':'—'}</div><div class="val-msub">자기자본이익률</div></div>
+      <div class="val-mc"><div class="val-ml">매출성장(YoY)</div><div class="val-mv ${rev!=null?(rev>0?'g':'r'):''}">${rev!=null?(rev*100).toFixed(1)+'%':'—'}</div><div class="val-msub">연간 성장률</div></div>
+      ${mktCap?`<div class="val-mc"><div class="val-ml">시가총액</div><div class="val-mv">$${(mktCap/1000).toFixed(2)}B</div><div class="val-msub">Market Cap</div></div>`:''}
+      ${latestShort?.shortInterestRatio!=null?`<div class="val-mc"><div class="val-ml">공매도 비율</div><div class="val-mv r">${latestShort.shortInterestRatio.toFixed(1)}일</div><div class="val-msub">Short Int. Ratio</div></div>`:''}
+    </div>
+
+    ${rangePct!=null?`<div class="val-range-wrap">
+      <div class="val-range-labels"><span>$${l52?.toFixed(2)} 52W 저</span><span style="font-weight:700">현재 $${price?.toFixed(2)}</span><span>고 $${h52?.toFixed(2)}</span></div>
+      <div class="val-range-bar"><div class="val-range-cursor" style="left:${rangePct}%"></div></div>
+      <div style="font-size:11px;color:#8e8e93;margin-top:6px;text-align:center">고점 대비 ${(((price-h52)/h52)*100).toFixed(1)}% · 저점 대비 +${(((price-l52)/l52)*100).toFixed(1)}%</div>
+    </div>`:''}
+
+    ${epsHtml?`<div><div class="ctitle" style="margin-top:8px;margin-bottom:6px">최근 EPS 실적</div><div class="val-eps-row">${epsHtml}</div></div>`:''}
+
+    <button class="val-ai-btn" onclick="runValuationAI('${ticker}')">✦ AI 밸류에이션 종합 분석</button>
+    <div class="val-ai-result" id="valAiResult_${ticker}"></div>
+  </div>`;
+}
+
+function saveShareCount(ticker){
+  const inp=document.getElementById(`sharesInput_${ticker}`);
+  if(!inp)return;
+  const shares=getShares();
+  shares[ticker]=parseFloat(inp.value)||0;
+  saveSharesStore(shares);
+  selectValTicker(ticker);
+}
+
+async function runValuationAI(ticker){
+  const s=S.find(x=>x.t===ticker);if(!s)return;
+  const resultEl=document.getElementById(`valAiResult_${ticker}`);if(!resultEl)return;
+  resultEl.classList.add('show');
+  resultEl.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div><br>AI 밸류에이션 분석 중...</div>';
+  const pd=prices[ticker];
+  const price=pd?.price||0;
+  const shares=getShares()[ticker]||0;
+  try{
+    const [valRes]=await Promise.all([fetch(`${API_BASE}/api/valuation?symbol=${ticker}`)]);
+    const valData=await valRes.json();
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'valuation-ai',symbol:ticker,name:s.n,price,shares,weight:s.w,
+        metrics:valData.metrics,profile:valData.profile,earnings:valData.earnings,shortData:valData.shortData,
+        apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    resultEl.innerHTML=(data.mock?'<em style="font-size:11px;color:#ff9500">[데모] </em>':'')+mdToHtml(data.text||'분석 실패');
+  }catch(e){
+    resultEl.innerHTML='오류: '+e.message;
+  }
 }
 
 async function summarizeNewsItem(ticker,headline,boxId){

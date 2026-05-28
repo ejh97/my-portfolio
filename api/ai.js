@@ -155,6 +155,51 @@ export default async function handler(req) {
     }
   }
 
+  // Per-stock valuation AI
+  if (action === 'valuation-ai') {
+    const { symbol, name, price, shares, weight, metrics, profile, earnings, shortData } = body;
+    const pe       = metrics?.peBasicExclExtraTTM;
+    const ps       = metrics?.psTTM;
+    const pb       = metrics?.pbAnnual;
+    const evEbitda = metrics?.evEbitdaTTM;
+    const roe      = metrics?.roeTTM;
+    const revGrowth = metrics?.revenueGrowthTTMYoy;
+    const high52   = metrics?.['52WeekHigh'];
+    const low52    = metrics?.['52WeekLow'];
+    const mktCap   = profile?.marketCapitalization;
+    const latestShort = Array.isArray(shortData) ? shortData[shortData.length - 1] : null;
+    const shortRatio  = latestShort?.shortInterestRatio;
+    const epsLines = Array.isArray(earnings)
+      ? earnings.slice(0, 4).map(e => `${e.period}: 실제$${e.actual} vs 예상$${e.estimate}`).join(' | ')
+      : '';
+    const context = [
+      `종목: ${symbol} (${name || symbol}) | 섹터: 포트폴리오 내 성장주`,
+      `현재가: $${price} | 보유수량: ${shares || 0}주 | 포지션 가치: $${shares ? (shares * price).toFixed(0) : '미입력'} | 비중: ${weight}%`,
+      mktCap ? `시가총액: $${(mktCap / 1000).toFixed(2)}B` : '',
+      `P/E: ${pe?.toFixed(1) ?? 'N/A'} | P/S: ${ps?.toFixed(1) ?? 'N/A'} | P/B: ${pb?.toFixed(1) ?? 'N/A'} | EV/EBITDA: ${evEbitda?.toFixed(1) ?? 'N/A'}`,
+      `ROE: ${roe?.toFixed(1) ?? 'N/A'}% | 매출성장(YoY): ${revGrowth != null ? `${(revGrowth * 100).toFixed(1)}%` : 'N/A'}`,
+      high52 != null ? `52주 범위: $${low52} ~ $${high52} | 고점대비: ${(((price - high52) / high52) * 100).toFixed(1)}%` : '',
+      shortRatio != null ? `공매도 비율(일): ${shortRatio.toFixed(2)}` : '',
+      epsLines ? `최근 실적: ${epsLines}` : '',
+    ].filter(Boolean).join('\n');
+
+    const prompt = `${context}\n\n이 종목의 밸류에이션을 분석해줘. 다음 형식으로 답해줘:\n1. 판정: 고평가/적정/저평가 중 하나\n2. 핵심 근거 (2-3개 bullet)\n3. 투자 의견: 보유/추가매수/부분매도 + 한 줄 이유`;
+
+    if (!hasClaude) {
+      const verdict = ps != null && ps > 20 ? '고평가' : ps != null && ps < 5 ? '저평가' : '적정';
+      return new Response(JSON.stringify({
+        text: `**${symbol} 밸류에이션 판정: ${verdict} (데모)**\n\nP/S ${ps?.toFixed(1) ?? 'N/A'}, P/E ${pe?.toFixed(1) ?? 'N/A'} 기준 현재 성장 프리미엄이 반영된 수준입니다.\n\n실제 AI 분석은 ANTHROPIC_API_KEY 설정 후 이용 가능합니다.`,
+        mock: true,
+      }), { headers: CORS });
+    }
+    try {
+      const text = await callClaude(key, [{ role: 'user', content: prompt }], buildSystemPrompt());
+      return new Response(JSON.stringify({ text }), { headers: CORS });
+    } catch (e) {
+      return new Response(JSON.stringify({ text: `분석 실패: ${e.message}`, mock: true }), { headers: CORS });
+    }
+  }
+
   // Chat
   if (action === 'chat') {
     if (!Array.isArray(messages) || !messages.length) {
