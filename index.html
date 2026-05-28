@@ -11,72 +11,90 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f2f2f7;color:#1c1c1e;min-height:100vh}
-.hdr{background:#fff;padding:20px 16px 14px;border-bottom:0.5px solid #e5e5ea;position:sticky;top:0;z-index:10}
-.hdr-top{display:flex;justify-content:space-between;align-items:flex-start}
-.hdr-label{font-size:13px;color:#8e8e93;margin-bottom:4px}
-.hdr-total{font-size:28px;font-weight:600;color:#1c1c1e}
-.hdr-ret{font-size:14px;color:#34c759;margin-top:3px}
-.hdr-ts{font-size:11px;color:#8e8e93;margin-top:4px}
-.refresh-btn{background:#007aff;color:#fff;border:none;border-radius:20px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;flex-shrink:0}
-.refresh-btn:active{background:#0062cc}
+.hdr{background:#fff;padding:16px 16px 12px;border-bottom:0.5px solid #e5e5ea;position:sticky;top:0;z-index:10}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.hdr-label{font-size:12px;color:#8e8e93;margin-bottom:2px}
+.hdr-total{font-size:26px;font-weight:700;color:#1c1c1e;letter-spacing:-0.5px}
+.hdr-sub{display:flex;gap:12px;margin-top:4px;align-items:center}
+.hdr-ret{font-size:13px;font-weight:600}
+.hdr-fx{font-size:12px;color:#8e8e93}
+.hdr-ts{font-size:11px;color:#8e8e93;margin-top:3px}
+.refresh-btn{background:#007aff;color:#fff;border:none;border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;flex-shrink:0;margin-top:4px}
+.refresh-btn:active{opacity:0.8}
 .refresh-btn.loading{background:#8e8e93}
-.spin{display:inline-block;animation:spin 1s linear infinite}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.spin{display:inline-block;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .tabs{display:flex;background:#fff;border-bottom:0.5px solid #e5e5ea}
-.tab{flex:1;padding:11px 4px;font-size:13px;font-weight:500;color:#8e8e93;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer}
+.tab{flex:1;padding:10px 4px;font-size:13px;font-weight:500;color:#8e8e93;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer}
 .tab.on{color:#007aff;border-bottom-color:#007aff}
-.sec{display:none;padding:16px}
+.sec{display:none;padding:14px}
 .sec.on{display:block}
-.mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-.mc{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-.ml{font-size:11px;color:#8e8e93;margin-bottom:5px}
-.mv{font-size:20px;font-weight:600;color:#1c1c1e}
+.mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.mc{background:#fff;border-radius:12px;padding:13px;box-shadow:0 1px 3px rgba(0,0,0,0.07)}
+.ml{font-size:11px;color:#8e8e93;margin-bottom:4px}
+.mv{font-size:19px;font-weight:700;color:#1c1c1e}
 .mv.g{color:#34c759}.mv.r{color:#ff3b30}.mv.w{color:#ff9500}
-.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-.ctitle{font-size:13px;color:#8e8e93;margin-bottom:14px;font-weight:500}
-.srow{display:flex;align-items:center;padding:9px 0;border-bottom:0.5px solid #f2f2f7}
+.card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.07)}
+.ctitle{font-size:12px;color:#8e8e93;margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+.srow{display:flex;align-items:center;padding:10px 0;border-bottom:0.5px solid #f2f2f7;cursor:pointer;transition:background 0.1s}
+.srow:active{background:#f2f2f7;margin:0 -14px;padding:10px 14px;border-radius:8px}
 .srow:last-child{border-bottom:none}
-.stk{font-size:14px;font-weight:600;width:52px;flex-shrink:0;color:#1c1c1e}
+.stk{font-size:14px;font-weight:700;width:52px;flex-shrink:0;color:#1c1c1e}
 .sinfo{flex:1;padding:0 8px}
 .sname{font-size:12px;color:#8e8e93}
-.swt{font-size:12px;color:#34c759;margin-top:2px}
-.wbar{height:4px;background:#f2f2f7;border-radius:2px;margin-top:3px}
-.wfill{height:4px;border-radius:2px}
-.sright{text-align:right}
-.sprice{font-size:14px;font-weight:600;color:#1c1c1e}
-.schg{font-size:12px;margin-top:2px}
+.swt{font-size:11px;color:#007aff;margin-top:2px;font-weight:600}
+.wbar{height:3px;background:#f2f2f7;border-radius:2px;margin-top:4px}
+.wfill{height:3px;border-radius:2px}
+.sright{text-align:right;min-width:80px}
+.sprice{font-size:14px;font-weight:700;color:#1c1c1e}
+.skrw{font-size:11px;color:#8e8e93;margin-top:1px}
+.schg{font-size:12px;font-weight:600;margin-top:1px}
 .schg.g{color:#34c759}.schg.r{color:#ff3b30}
+.chart-hint{font-size:11px;color:#007aff;text-align:center;margin-top:8px}
 .secrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid #f2f2f7}
 .secrow:last-child{border-bottom:none}
-.secdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
-.secname{font-size:14px;color:#1c1c1e;flex:1}
-.secpct{font-size:14px;font-weight:600;color:#1c1c1e;width:40px;text-align:right}
+.secdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.secname{font-size:13px;color:#1c1c1e;flex:1}
+.secpct{font-size:13px;font-weight:700;color:#1c1c1e;width:38px;text-align:right}
 .secbar{flex:1;height:5px;background:#f2f2f7;border-radius:3px}
 .secfill{height:5px;border-radius:3px}
-.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:12px}
-.li{display:flex;align-items:center;gap:7px;font-size:12px;color:#8e8e93}
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:10px}
+.li{display:flex;align-items:center;gap:6px;font-size:12px;color:#8e8e93}
 .ldot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .rrow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:0.5px solid #f2f2f7}
 .rrow:last-child{border-bottom:none}
-.rlabel{font-size:14px;color:#8e8e93}
-.rval{font-size:14px;font-weight:600;color:#1c1c1e}
-.badge{font-size:12px;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;font-weight:500}
+.rlabel{font-size:13px;color:#8e8e93}
+.rval{font-size:13px;font-weight:700;color:#1c1c1e}
+.badge{font-size:12px;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;font-weight:600}
 .badge.red{background:#fff0f0;color:#ff3b30}
-.rbitem{padding:11px 0;border-bottom:0.5px solid #f2f2f7}
+.rbitem{padding:10px 0;border-bottom:0.5px solid #f2f2f7}
 .rbitem:last-child{border-bottom:none}
-.rba{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:5px}
+.rba{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:4px}
 .rba.sell{background:#fff0f0;color:#ff3b30}
 .rba.buy{background:#f0fff4;color:#34c759}
 .rba.hold{background:#f0f5ff;color:#007aff}
-.rbtitle{font-size:14px;font-weight:600;color:#1c1c1e;margin:4px 0}
+.rbtitle{font-size:13px;font-weight:700;color:#1c1c1e;margin:4px 0}
 .rbdesc{font-size:12px;color:#8e8e93;line-height:1.5}
-.chartbox{position:relative;width:100%;height:240px;margin:8px 0}
-.donutbox{position:relative;width:100%;height:200px}
-.errmsg{font-size:12px;color:#ff9500;padding:8px 0;text-align:center}
-.fx-bar{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:0.5px solid #f2f2f7}
-.fx-label{font-size:12px;color:#8e8e93}
-.fx-input{flex:1;font-size:14px;padding:6px 8px;border:1px solid #e5e5ea;border-radius:8px;text-align:right;color:#1c1c1e;background:#fff}
-.fx-btn{background:#34c759;color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.chartbox{position:relative;width:100%;height:220px;margin:6px 0}
+.donutbox{position:relative;width:100%;height:190px}
+
+/* 차트 모달 */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:100;justify-content:center;align-items:flex-end}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;padding:0 0 20px;max-height:90vh;overflow:hidden}
+.modal-handle{width:36px;height:4px;background:#e5e5ea;border-radius:2px;margin:10px auto 0}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 10px}
+.modal-title{font-size:17px;font-weight:700;color:#1c1c1e}
+.modal-sub{font-size:13px;color:#8e8e93;margin-top:2px}
+.modal-close{background:none;border:none;font-size:22px;color:#8e8e93;cursor:pointer;padding:0 4px;line-height:1}
+.modal-price{padding:0 16px 12px;border-bottom:0.5px solid #f2f2f7}
+.modal-price-val{font-size:28px;font-weight:700;color:#1c1c1e}
+.modal-price-chg{font-size:15px;font-weight:600;margin-top:2px}
+.modal-price-chg.g{color:#34c759}.modal-price-chg.r{color:#ff3b30}
+.modal-price-krw{font-size:13px;color:#8e8e93;margin-top:2px}
+.modal-chart{width:100%;height:240px;border:none;display:block}
+.modal-links{display:flex;gap:10px;padding:12px 16px 0}
+.modal-link{flex:1;text-align:center;padding:10px;background:#f2f2f7;border-radius:10px;font-size:13px;font-weight:600;color:#007aff;text-decoration:none}
 </style>
 </head>
 <body>
@@ -85,14 +103,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="hdr-top">
     <div>
       <div class="hdr-label">내 포트폴리오</div>
-      <div class="hdr-total" id="totalDisp">₩—</div>
-      <div class="hdr-ret" id="retDisp">시세 불러오는 중...</div>
+      <div class="hdr-total" id="totalDisp">계산 중...</div>
+      <div class="hdr-sub">
+        <span class="hdr-ret" id="retDisp" style="color:#8e8e93">갱신 중...</span>
+        <span class="hdr-fx" id="fxDisp"></span>
+      </div>
     </div>
     <button class="refresh-btn" id="refreshBtn" onclick="fetchAll()">
-      <span id="refreshIcon">↻</span> 시세갱신
+      <span id="refreshIcon">↻</span> 갱신
     </button>
   </div>
-  <div class="hdr-ts" id="ts">마지막 갱신: —</div>
+  <div class="hdr-ts" id="ts">시세 불러오는 중...</div>
 </div>
 
 <div class="tabs">
@@ -101,27 +122,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="tab" onclick="sw('r')">리스크</button>
 </div>
 
+<!-- 보유종목 -->
 <div id="th" class="sec on">
   <div class="mgrid">
-    <div class="mc"><div class="ml">총 평가금액</div><div class="mv" id="m-total">—</div></div>
-    <div class="mc"><div class="ml">총 손익</div><div class="mv g" id="m-pnl">—</div></div>
-    <div class="mc"><div class="ml">USD/KRW</div><div class="mv" id="m-fx">1,382</div></div>
+    <div class="mc"><div class="ml">총 평가금액(KRW)</div><div class="mv" id="m-total">—</div></div>
+    <div class="mc"><div class="ml">오늘 등락</div><div class="mv" id="m-pnl">—</div></div>
+    <div class="mc"><div class="ml">USD/KRW</div><div class="mv" id="m-fx">—</div></div>
     <div class="mc"><div class="ml">가중 베타</div><div class="mv w">2.40</div></div>
   </div>
   <div class="card">
-    <div class="ctitle">보유 종목 <span style="font-size:11px;color:#007aff">↻ 시세갱신 버튼으로 자동 업데이트</span></div>
+    <div class="ctitle">보유 종목</div>
     <div id="stockList"></div>
-  </div>
-  <div class="card">
-    <div class="ctitle">USD/KRW 환율 설정</div>
-    <div class="fx-bar">
-      <span class="fx-label">환율</span>
-      <input class="fx-input" id="fxInput" type="number" value="1382" placeholder="예: 1382">
-      <button class="fx-btn" onclick="setFx()">적용</button>
-    </div>
+    <div class="chart-hint">종목 탭하면 차트 보기 ↑</div>
   </div>
 </div>
 
+<!-- 섹터 -->
 <div id="ts2" class="sec">
   <div class="card">
     <div class="ctitle">섹터별 비중</div>
@@ -131,6 +147,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="card"><div class="ctitle">섹터 상세</div><div id="sd"></div></div>
 </div>
 
+<!-- 리스크 -->
 <div id="tr" class="sec">
   <div class="card">
     <span class="badge red">⚠ 고변동성 포트폴리오</span>
@@ -146,48 +163,69 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="ctitle">종목별 베타</div>
     <div class="chartbox"><canvas id="bc"></canvas></div>
   </div>
-  <div class="card">
-    <div class="ctitle">리밸런싱 제안</div>
-    <div id="rbl"></div>
+  <div class="card"><div class="ctitle">리밸런싱 제안</div><div id="rbl"></div></div>
+</div>
+
+<!-- 차트 모달 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr">
+      <div>
+        <div class="modal-title" id="modalTitle">—</div>
+        <div class="modal-sub" id="modalSub">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-price">
+      <div class="modal-price-val" id="modalPrice">—</div>
+      <div class="modal-price-chg" id="modalChg">—</div>
+      <div class="modal-price-krw" id="modalKrw">—</div>
+    </div>
+    <iframe class="modal-chart" id="modalChart" src="" allowtransparency="true" frameborder="0"></iframe>
+    <div class="modal-links">
+      <a class="modal-link" id="tvLink" href="#" target="_blank">TradingView ↗</a>
+      <a class="modal-link" id="yhLink" href="#" target="_blank">Yahoo Finance ↗</a>
+    </div>
   </div>
 </div>
 
 <script>
 const S=[
-  {t:'RDW',n:'Redwire',w:15.1,sec:'우주·방산',b:2.42,avg:8.5},
-  {t:'IONQ',n:'IonQ',w:8.7,sec:'AI·양자',b:3.05,avg:18.2},
-  {t:'RKLB',n:'Rocket Lab',w:8.7,sec:'우주·방산',b:2.31,avg:12.4},
-  {t:'LUNR',n:'Intuitive Machines',w:7.8,sec:'우주·방산',b:1.47,avg:8.1},
-  {t:'FLNC',n:'Fluence Energy',w:6.6,sec:'에너지·DC',b:2.62,avg:14.2},
-  {t:'BBAI',n:'BigBear.ai',w:6.2,sec:'AI·양자',b:3.05,avg:2.8},
-  {t:'NVDA',n:'NVIDIA',w:5.4,sec:'빅테크',b:2.24,avg:92.0},
-  {t:'PL',n:'Planet Labs',w:5.0,sec:'우주·방산',b:1.91,avg:3.2},
-  {t:'ITA',n:'iShares A&D ETF',w:3.6,sec:'우주·방산',b:0.73,avg:142.0},
-  {t:'PLTR',n:'Palantir',w:3.5,sec:'AI·양자',b:1.52,avg:22.5},
-  {t:'META',n:'Meta',w:3.2,sec:'빅테크',b:1.24,avg:480.0},
-  {t:'WULF',n:'TeraWulf',w:2.6,sec:'에너지·DC',b:4.28,avg:3.8},
-  {t:'RGTI',n:'Rigetti',w:2.6,sec:'AI·양자',b:1.80,avg:12.0},
-  {t:'PGY',n:'Pagaya',w:2.6,sec:'핀테크',b:5.44,avg:14.5},
-  {t:'IREN',n:'IREN',w:1.9,sec:'에너지·DC',b:4.18,avg:8.2},
-  {t:'CLS',n:'Celestica',w:1.9,sec:'에너지·DC',b:1.48,avg:62.0},
-  {t:'JOBY',n:'Joby Aviation',w:1.5,sec:'eVTOL',b:2.61,avg:5.8},
-  {t:'AMZN',n:'Amazon',w:1.4,sec:'빅테크',b:1.47,avg:185.0},
-  {t:'TEM',n:'Tempus AI',w:1.2,sec:'AI·양자',b:2.0,avg:38.0},
+  {t:'RDW',n:'Redwire',w:15.1,sec:'우주·방산',b:2.42,tv:'NYSE:RDW'},
+  {t:'IONQ',n:'IonQ',w:8.7,sec:'AI·양자',b:3.05,tv:'NYSE:IONQ'},
+  {t:'RKLB',n:'Rocket Lab',w:8.7,sec:'우주·방산',b:2.31,tv:'NASDAQ:RKLB'},
+  {t:'LUNR',n:'Intuitive Machines',w:7.8,sec:'우주·방산',b:1.47,tv:'NASDAQ:LUNR'},
+  {t:'FLNC',n:'Fluence Energy',w:6.6,sec:'에너지·DC',b:2.62,tv:'NASDAQ:FLNC'},
+  {t:'BBAI',n:'BigBear.ai',w:6.2,sec:'AI·양자',b:3.05,tv:'NYSE:BBAI'},
+  {t:'NVDA',n:'NVIDIA',w:5.4,sec:'빅테크',b:2.24,tv:'NASDAQ:NVDA'},
+  {t:'PL',n:'Planet Labs',w:5.0,sec:'우주·방산',b:1.91,tv:'NYSE:PL'},
+  {t:'ITA',n:'iShares A&D ETF',w:3.6,sec:'우주·방산',b:0.73,tv:'AMEX:ITA'},
+  {t:'PLTR',n:'Palantir',w:3.5,sec:'AI·양자',b:1.52,tv:'NYSE:PLTR'},
+  {t:'META',n:'Meta',w:3.2,sec:'빅테크',b:1.24,tv:'NASDAQ:META'},
+  {t:'WULF',n:'TeraWulf',w:2.6,sec:'에너지·DC',b:4.28,tv:'NASDAQ:WULF'},
+  {t:'RGTI',n:'Rigetti',w:2.6,sec:'AI·양자',b:1.80,tv:'NASDAQ:RGTI'},
+  {t:'PGY',n:'Pagaya',w:2.6,sec:'핀테크',b:5.44,tv:'NASDAQ:PGY'},
+  {t:'IREN',n:'IREN',w:1.9,sec:'에너지·DC',b:4.18,tv:'NASDAQ:IREN'},
+  {t:'CLS',n:'Celestica',w:1.9,sec:'에너지·DC',b:1.48,tv:'NYSE:CLS'},
+  {t:'JOBY',n:'Joby Aviation',w:1.5,sec:'eVTOL',b:2.61,tv:'NYSE:JOBY'},
+  {t:'AMZN',n:'Amazon',w:1.4,sec:'빅테크',b:1.47,tv:'NASDAQ:AMZN'},
+  {t:'TEM',n:'Tempus AI',w:1.2,sec:'AI·양자',b:2.0,tv:'NASDAQ:TEM'},
+  {t:'달러',n:'USD 현금',w:6.6,sec:'현금',b:0,tv:null},
 ];
-const CASH={t:'달러',n:'USD 현금',w:6.6,sec:'현금',b:0};
 const SC={'우주·방산':'#007aff','AI·양자':'#5856d6','빅테크':'#34c759','에너지·DC':'#ff9500','핀테크':'#ff2d55','현금':'#8e8e93','eVTOL':'#00c7be'};
 const RB=[
-  {a:'매도',c:'sell',ti:'RDW 15.1% → 8~10%',d:'YTD +129% 급등 후 차익실현 적기. 단일 종목 10% 초과 주의.'},
-  {a:'매도',c:'sell',ti:'RGTI 매도 → IONQ 통합',d:'양자 합산 11.3% → 7%로 압축. IONQ 자금력 우위.'},
-  {a:'매도',c:'sell',ti:'WULF 또는 IREN 정리',d:'베타 4+ 두 종목 동시 보유. 하나로 통합 권장.'},
-  {a:'매수',c:'buy',ti:'현금 6.6% → 10~12%',d:'변동성 완충 강화 + USD 현금으로 환헤지 효과.'},
-  {a:'매수',c:'buy',ti:'ITA 3.6% → 5~7%',d:'방산 노출 유지하며 베타 0.73으로 변동성 절반.'},
-  {a:'검토',c:'hold',ti:'QQQ/VTI 5~7% 편입',d:'광역 ETF로 가중 베타 2.4 → 2.0 이하 목표.'},
+  {a:'매도',c:'sell',ti:'RDW 15.1% → 8~10%',d:'YTD +129% 급등 후 차익실현 적기.'},
+  {a:'매도',c:'sell',ti:'RGTI → IONQ 통합',d:'양자 합산 7%로 압축. IONQ 자금력 우위.'},
+  {a:'매도',c:'sell',ti:'WULF 또는 IREN 정리',d:'베타 4+ 두 종목 동시 보유 위험.'},
+  {a:'매수',c:'buy',ti:'현금 6.6% → 10~12%',d:'변동성 완충 + 환헤지 효과.'},
+  {a:'매수',c:'buy',ti:'ITA 3.6% → 5~7%',d:'방산 유지하며 베타 0.73으로 완충.'},
+  {a:'검토',c:'hold',ti:'QQQ/VTI 5~7% 편입',d:'가중 베타 2.4 → 2.0 이하 목표.'},
 ];
 
 let prices={};
 let fx=1382;
-const TOTAL_COST=16350000;
+let fxLoaded=false;
 
 function sw(tab){
   const map={h:'th',s:'ts2',r:'tr'};
@@ -198,86 +236,97 @@ function sw(tab){
   if(tab==='r')renderBeta();
 }
 
-function setFx(){
-  const v=parseFloat(document.getElementById('fxInput').value);
-  if(!isNaN(v)&&v>0){
-    fx=v;
-    document.getElementById('m-fx').textContent=Math.round(fx).toLocaleString();
-    updateTotals();
-    renderStocks();
-    try{localStorage.setItem('pf_fx',fx);}catch(e){}
-  }
-}
-
 async function fetchAll(){
   const btn=document.getElementById('refreshBtn');
   const icon=document.getElementById('refreshIcon');
-  btn.classList.add('loading');
-  btn.disabled=true;
-  icon.className='spin';
-  icon.textContent='↻';
+  btn.classList.add('loading');btn.disabled=true;
+  icon.className='spin';icon.textContent='↻';
 
-  const tickers=S.map(s=>s.t).join(',');
   const proxy='https://api.allorigins.win/get?url=';
-  const yahooUrl=encodeURIComponent(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers}&fields=regularMarketPrice,regularMarketChangePercent`);
+  const tickers=S.filter(s=>s.tv).map(s=>s.t).join(',');
 
-  try{
-    const res=await fetch(proxy+yahooUrl);
-    const data=await res.json();
-    const parsed=JSON.parse(data.contents);
-    const quotes=parsed?.quoteResponse?.result||[];
-    quotes.forEach(q=>{
-      prices[q.symbol]={price:q.regularMarketPrice,chg:q.regularMarketChangePercent};
-    });
-    const now=new Date();
-    document.getElementById('ts').textContent=`마지막 갱신: ${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
-    updateTotals();
-    renderStocks();
-  }catch(e){
-    document.getElementById('ts').textContent='갱신 실패 — 잠시 후 다시 시도해주세요';
+  // 환율 + 주가 동시에
+  const [stockRes, fxRes] = await Promise.allSettled([
+    fetch(proxy+encodeURIComponent(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers}&fields=regularMarketPrice,regularMarketChangePercent,regularMarketPreviousClose`)),
+    fetch(proxy+encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols=USDKRW=X&fields=regularMarketPrice'))
+  ]);
+
+  // 환율 처리
+  if(fxRes.status==='fulfilled'){
+    try{
+      const fd=await fxRes.value.json();
+      const fp=JSON.parse(fd.contents);
+      const fq=fp?.quoteResponse?.result?.[0];
+      if(fq?.regularMarketPrice){
+        fx=fq.regularMarketPrice;
+        fxLoaded=true;
+      }
+    }catch(e){}
   }
 
-  btn.classList.remove('loading');
-  btn.disabled=false;
-  icon.className='';
-  icon.textContent='↻';
+  // 주가 처리
+  if(stockRes.status==='fulfilled'){
+    try{
+      const sd=await stockRes.value.json();
+      const sp=JSON.parse(sd.contents);
+      const quotes=sp?.quoteResponse?.result||[];
+      quotes.forEach(q=>{
+        prices[q.symbol]={price:q.regularMarketPrice,chg:q.regularMarketChangePercent};
+      });
+    }catch(e){}
+  }
+
+  const now=new Date();
+  const ts=`${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')} 갱신`;
+  document.getElementById('ts').textContent=Object.keys(prices).length>0?ts:'갱신 실패 — 잠시 후 다시 시도';
+
+  updateTotals();
+  renderStocks();
+
+  btn.classList.remove('loading');btn.disabled=false;
+  icon.className='';icon.textContent='↻';
 }
 
 function updateTotals(){
-  let totalKRW=0;
-  const totalW=S.reduce((a,s)=>a+s.w,0)+CASH.w;
-  S.forEach(s=>{
-    const p=prices[s.t];
-    if(p){
-      const portion=(s.w/100)*28940000;
-      totalKRW+=portion;
-    }
-  });
-  if(Object.keys(prices).length>0){
-    const allPrices=S.filter(s=>prices[s.t]);
-    const weightedChg=allPrices.reduce((sum,s)=>{
-      return sum+(prices[s.t].chg*(s.w/100));
-    },0);
-    const sign=weightedChg>=0?'+':'';
-    document.getElementById('retDisp').textContent=`오늘 ${sign}${weightedChg.toFixed(2)}%`;
-    document.getElementById('retDisp').style.color=weightedChg>=0?'#34c759':'#ff3b30';
-    document.getElementById('m-pnl').textContent=`${sign}${weightedChg.toFixed(2)}%`;
-    document.getElementById('m-pnl').className='mv '+(weightedChg>=0?'g':'r');
+  // 환율
+  document.getElementById('m-fx').textContent=fxLoaded?Math.round(fx).toLocaleString()+'원':'1,382원';
+  document.getElementById('fxDisp').textContent=fxLoaded?`환율 ${Math.round(fx).toLocaleString()}원`:'';
+
+  // 총평가금액: 비중 기준으로 계산
+  const totalUSD=S.filter(s=>prices[s.t]).reduce((sum,s)=>{
+    const p=prices[s.t].price;
+    // 전체 포트 28940000 KRW 기준으로 각 종목 USD 환산
+    return sum+(28940000*(s.w/100)/fx);
+  },0);
+  const totalKRW=totalUSD*fx;
+  document.getElementById('m-total').textContent=Object.keys(prices).length>0?'₩'+Math.round(totalKRW/10000).toLocaleString()+'만':'—';
+  document.getElementById('totalDisp').textContent=Object.keys(prices).length>0?'₩'+Math.round(totalKRW).toLocaleString():'계산 중...';
+
+  // 가중 등락
+  const priced=S.filter(s=>prices[s.t]);
+  if(priced.length>0){
+    const wChg=priced.reduce((sum,s)=>sum+(prices[s.t].chg*(s.w/100)),0);
+    const sign=wChg>=0?'+':'';
+    const el=document.getElementById('retDisp');
+    el.textContent=`오늘 ${sign}${wChg.toFixed(2)}%`;
+    el.style.color=wChg>=0?'#34c759':'#ff3b30';
+    const m=document.getElementById('m-pnl');
+    m.textContent=`${sign}${wChg.toFixed(2)}%`;
+    m.className='mv '+(wChg>=0?'g':'r');
   }
-  document.getElementById('totalDisp').textContent='₩28,940,000';
-  document.getElementById('m-total').textContent='₩2,894만';
 }
 
 function renderStocks(){
-  const allS=[...S,CASH];
-  document.getElementById('stockList').innerHTML=allS.map(s=>{
+  document.getElementById('stockList').innerHTML=S.map(s=>{
     const col=SC[s.sec]||'#8e8e93';
     const bw=Math.min(100,Math.round(s.w*5.5));
     const pd=prices[s.t];
-    const priceStr=pd?'$'+pd.price.toFixed(2):(s.t==='달러'?'USD':'-');
+    const priceStr=pd?'$'+pd.price.toFixed(2):(s.t==='달러'?'USD 현금':'-');
     const chgStr=pd?(pd.chg>=0?'+':'')+pd.chg.toFixed(2)+'%':'';
     const chgCls=pd?(pd.chg>=0?'g':'r'):'';
-    return `<div class="srow">
+    const krwStr=pd?'≈ ₩'+Math.round(pd.price*fx).toLocaleString():'';
+    const clickable=s.tv?`onclick="openChart('${s.t}')"`:'' ;
+    return `<div class="srow" ${clickable}>
       <span class="stk">${s.t}</span>
       <div class="sinfo">
         <div class="sname">${s.n}</div>
@@ -286,16 +335,53 @@ function renderStocks(){
       </div>
       <div class="sright">
         <div class="sprice">${priceStr}</div>
+        <div class="skrw">${krwStr}</div>
         ${chgStr?`<div class="schg ${chgCls}">${chgStr}</div>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
+function openChart(ticker){
+  const s=S.find(x=>x.t===ticker);
+  if(!s||!s.tv)return;
+  const pd=prices[ticker];
+  document.getElementById('modalTitle').textContent=`${ticker} — ${s.n}`;
+  document.getElementById('modalSub').textContent=s.sec;
+  document.getElementById('modalPrice').textContent=pd?'$'+pd.price.toFixed(2):'가격 불러오는 중...';
+  const chgEl=document.getElementById('modalChg');
+  if(pd){
+    const sign=pd.chg>=0?'+':'';
+    chgEl.textContent=`오늘 ${sign}${pd.chg.toFixed(2)}%`;
+    chgEl.className='modal-price-chg '+(pd.chg>=0?'g':'r');
+  }else{chgEl.textContent='';}
+  const krwEl=document.getElementById('modalKrw');
+  krwEl.textContent=pd?`1주 ≈ ₩${Math.round(pd.price*fx).toLocaleString()}`:'';
+
+  // TradingView 위젯
+  const tvSym=encodeURIComponent(s.tv);
+  const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const theme=isDark?'dark':'light';
+  const chartUrl=`https://s.tradingview.com/widgetembed/?frameElementId=mc&symbol=${tvSym}&interval=D&hidesidetoolbar=1&hidetoptoolbar=1&saveimage=0&toolbarbg=f1f3f6&studies=%5B%5D&theme=${theme}&style=1&timezone=Asia%2FSeoul&withdateranges=1&showpopupbutton=0`;
+  document.getElementById('modalChart').src=chartUrl;
+  document.getElementById('tvLink').href=`https://www.tradingview.com/symbols/${s.tv.replace(':','-')}/`;
+  document.getElementById('yhLink').href=`https://finance.yahoo.com/quote/${ticker}/`;
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(e){
+  if(e.target===document.getElementById('modalOverlay'))closeModalDirect();
+}
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.getElementById('modalChart').src='';
+  document.body.style.overflow='';
+}
+
 function renderSector(){
-  const all=[...S,CASH];
   const m={};
-  all.forEach(s=>m[s.sec]=(m[s.sec]||0)+s.w);
+  S.forEach(s=>m[s.sec]=(m[s.sec]||0)+s.w);
   const entries=Object.entries(m).sort((a,b)=>b[1]-a[1]);
   const cols=entries.map(([k])=>SC[k]||'#8e8e93');
   if(window._dc)window._dc.destroy();
@@ -315,7 +401,7 @@ function renderSector(){
 }
 
 function renderBeta(){
-  const sorted=[...S].sort((a,b)=>b.b-a.b);
+  const sorted=[...S].filter(s=>s.b>0).sort((a,b)=>b.b-a.b);
   const cols=sorted.map(s=>s.b>=3?'#ff3b30':s.b>=2?'#ff9500':'#007aff');
   if(window._bc)window._bc.destroy();
   window._bc=new Chart(document.getElementById('bc'),{
@@ -334,7 +420,6 @@ function renderRebal(){
     </div>`).join('');
 }
 
-try{const f=localStorage.getItem('pf_fx');if(f){fx=parseFloat(f);document.getElementById('fxInput').value=fx;document.getElementById('m-fx').textContent=Math.round(fx).toLocaleString();}}catch(e){}
 renderStocks();
 renderRebal();
 fetchAll();
