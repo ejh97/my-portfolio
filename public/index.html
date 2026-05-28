@@ -109,6 +109,74 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .modal-chart{width:100%;height:250px;border:none;display:block}
 .modal-links{display:flex;gap:10px;padding:12px 16px 4px}
 .modal-link{flex:1;text-align:center;padding:10px;background:#f2f2f7;border-radius:10px;font-size:13px;font-weight:600;color:#007aff;text-decoration:none}
+.ai-action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ai-action-btn{background:#fff;border:none;border-radius:14px;padding:16px 12px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.07);text-align:left;transition:opacity .15s}
+.ai-action-btn:active{opacity:.7}
+.ai-action-icon{font-size:24px;margin-bottom:6px}
+.ai-action-label{font-size:13px;font-weight:700;color:#1c1c1e;margin-bottom:2px}
+.ai-action-desc{font-size:11px;color:#8e8e93;line-height:1.4}
+.ai-result-card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);display:none}
+.ai-result-card.show{display:block}
+.ai-result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ai-result-title{font-size:13px;font-weight:700;color:#8e8e93;text-transform:uppercase;letter-spacing:.5px}
+.ai-mock-badge{font-size:11px;color:#ff9500;background:#fff8ee;padding:2px 8px;border-radius:10px;font-weight:600}
+.ai-result-body{font-size:13px;color:#1c1c1e;line-height:1.7}
+.ai-result-body strong{font-weight:700;color:#1c1c1e}
+.ai-result-body h3,.ai-result-body h2{font-size:14px;font-weight:700;margin:10px 0 4px;color:#1c1c1e}
+.ai-loading{text-align:center;padding:24px;color:#8e8e93;font-size:13px}
+.ai-spinner{display:inline-block;width:20px;height:20px;border:2px solid #e5e5ea;border-top-color:#007aff;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:8px}
+.chat-wrap{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.07);margin-bottom:12px}
+.chat-msgs{padding:14px;max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:82%;padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.55}
+.chat-msg.user{align-self:flex-end;background:#007aff;color:#fff;border-bottom-right-radius:4px}
+.chat-msg.ai{align-self:flex-start;background:#f2f2f7;color:#1c1c1e;border-bottom-left-radius:4px}
+.chat-msg.typing{color:#8e8e93;font-style:italic}
+.chat-input-row{display:flex;gap:8px;padding:10px 12px;border-top:.5px solid #f2f2f7;background:#fafafa}
+.chat-input{flex:1;border:.5px solid #e5e5ea;border-radius:20px;padding:9px 14px;font-size:13px;outline:none;background:#fff;-webkit-appearance:none}
+.chat-input:focus{border-color:#007aff}
+.chat-send{background:#007aff;color:#fff;border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0}
+.chat-send:disabled{background:#c7c7cc;pointer-events:none}
+.ai-key-row{background:#fff8ee;border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:12px;color:#8e8e93;line-height:1.6}
+.ai-key-row a{color:#007aff;text-decoration:none}
+.news-summary-btn{margin-top:8px;background:none;border:.5px solid #007aff;border-radius:12px;padding:5px 12px;font-size:11px;font-weight:600;color:#007aff;cursor:pointer;display:flex;align-items:center;gap:4px}
+.news-summary-btn:active{opacity:.7}
+.news-summary-box{background:#f2f2f7;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:12px;color:#1c1c1e;line-height:1.6;display:none}
+.news-summary-box.show{display:block}
+.val-picker{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.val-ticker-btn{padding:6px 14px;border-radius:20px;border:.5px solid #e5e5ea;background:#fff;font-size:13px;font-weight:600;color:#8e8e93;cursor:pointer;transition:all .15s}
+.val-ticker-btn.on{background:#5856d6;color:#fff;border-color:#5856d6}
+.val-pos-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.val-pos-name{font-size:16px;font-weight:700;color:#1c1c1e}
+.val-pos-sub{font-size:12px;color:#8e8e93;margin-top:2px}
+.val-pos-usd{font-size:20px;font-weight:700;color:#1c1c1e;text-align:right}
+.val-pos-krw{font-size:12px;color:#8e8e93;margin-top:2px;text-align:right}
+.val-shares-row{display:flex;align-items:center;gap:8px;background:#f2f2f7;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.val-shares-label{font-size:12px;color:#8e8e93;flex:1}
+.val-shares-input{width:80px;border:.5px solid #e5e5ea;border-radius:8px;padding:6px 10px;font-size:14px;font-weight:700;text-align:center;outline:none;background:#fff}
+.val-shares-input:focus{border-color:#5856d6}
+.val-shares-save{background:#5856d6;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.val-mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.val-mc{background:#f2f2f7;border-radius:10px;padding:12px}
+.val-ml{font-size:11px;color:#8e8e93;margin-bottom:4px}
+.val-mv{font-size:18px;font-weight:700;color:#1c1c1e}
+.val-mv.g{color:#34c759}.val-mv.r{color:#ff3b30}
+.val-msub{font-size:10px;color:#8e8e93;margin-top:2px}
+.val-range-wrap{margin:12px 0}
+.val-range-labels{font-size:11px;color:#8e8e93;display:flex;justify-content:space-between;margin-bottom:6px}
+.val-range-bar{height:6px;background:linear-gradient(90deg,#34c759 0%,#ff9500 50%,#ff3b30 100%);border-radius:3px;position:relative}
+.val-range-cursor{position:absolute;top:-4px;width:14px;height:14px;background:#fff;border:2.5px solid #1c1c1e;border-radius:50%;transform:translateX(-50%);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.val-eps-row{display:flex;gap:6px;margin-top:8px}
+.val-eps-item{flex:1;text-align:center;background:#f2f2f7;border-radius:8px;padding:8px 4px}
+.val-eps-period{font-size:9px;color:#8e8e93;margin-bottom:3px}
+.val-eps-actual{font-size:12px;font-weight:700}
+.val-eps-actual.g{color:#34c759}.val-eps-actual.r{color:#ff3b30}
+.val-eps-beat{font-size:9px;margin-top:2px}
+.val-ai-btn{width:100%;background:#5856d6;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:14px;transition:opacity .15s}
+.val-ai-btn:active{opacity:.8}
+.val-ai-result{background:#f0f0ff;border-radius:12px;padding:14px;margin-top:10px;font-size:13px;color:#1c1c1e;line-height:1.7;display:none}
+.val-ai-result.show{display:block}
+.val-empty{text-align:center;padding:30px;color:#8e8e93;font-size:14px}
+.val-loading{text-align:center;padding:30px;color:#8e8e93;font-size:13px}
 </style>
 </head>
 <body>
@@ -133,6 +201,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="tab" onclick="sw('s')">섹터</button>
   <button class="tab" onclick="sw('r')">리스크</button>
   <button class="tab" onclick="sw('n')">뉴스</button>
+  <button class="tab" onclick="sw('a')">AI</button>
+  <button class="tab" onclick="sw('v')">밸류</button>
 </div>
 <div id="th" class="sec on">
   <div class="mgrid">
@@ -178,6 +248,55 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div id="newsList"><div class="news-empty">위에서 종목을 선택해주세요</div></div>
     <a class="news-open-btn" id="newsMoreBtn" href="#" target="_blank" style="display:none">더 보기 ↗</a>
   </div>
+</div>
+<div id="ta" class="sec">
+  <div class="ai-key-row">
+    <strong>AI 분석 모드</strong> · Claude API 키 없이도 데모로 사용 가능.<br>
+    실제 AI 분석을 원하면 Vercel 환경변수 <code>ANTHROPIC_API_KEY</code>를 설정하거나
+    <a href="#" onclick="toggleApiKeyInput();return false">여기서 직접 입력</a>하세요.
+    <div id="apiKeyInputRow" style="display:none;margin-top:8px">
+      <input id="apiKeyInput" type="password" placeholder="sk-ant-..." style="width:100%;border:.5px solid #e5e5ea;border-radius:8px;padding:8px 10px;font-size:12px;outline:none">
+      <button onclick="saveApiKey()" style="margin-top:6px;background:#007aff;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">저장</button>
+    </div>
+  </div>
+  <div class="ai-action-row">
+    <button class="ai-action-btn" onclick="runAI('analysis')">
+      <div class="ai-action-icon">📊</div>
+      <div class="ai-action-label">포트폴리오 분석</div>
+      <div class="ai-action-desc">강점·리스크·리밸런싱 종합</div>
+    </button>
+    <button class="ai-action-btn" onclick="runAI('short')">
+      <div class="ai-action-icon">📉</div>
+      <div class="ai-action-label">공매도 포지션 검토</div>
+      <div class="ai-action-desc">고위험 종목 숏 압력 분석</div>
+    </button>
+  </div>
+  <div class="ai-result-card" id="aiResultCard">
+    <div class="ai-result-header">
+      <span class="ai-result-title" id="aiResultTitle">분석 결과</span>
+      <span class="ai-mock-badge" id="aiMockBadge" style="display:none">데모</span>
+    </div>
+    <div class="ai-result-body" id="aiResultBody"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">AI 포트폴리오 채팅</div>
+    <div class="chat-wrap">
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="chat-msg ai">안녕하세요! 포트폴리오에 대해 무엇이든 물어보세요. 예: "IONQ 지금 팔아야 해?", "리스크 줄이려면?"</div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" placeholder="질문 입력..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send" id="chatSend" onclick="sendChat()">전송</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tv" class="sec">
+  <div class="card">
+    <div class="ctitle">종목 선택 — 주식수량·밸류에이션 분석</div>
+    <div class="val-picker" id="valPicker"></div>
+  </div>
+  <div id="valContent"><div class="val-empty">위에서 종목을 선택해주세요</div></div>
 </div>
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
@@ -241,15 +360,16 @@ if(!API_BASE && location.hostname.includes('vercel.app')) {
 }
 
 function sw(tab){
-  const map={h:'th',s:'ts2',r:'tr',n:'tn'};
+  const map={h:'th',s:'ts2',r:'tr',n:'tn',a:'ta',v:'tv'};
   document.querySelectorAll('.sec').forEach(el=>el.classList.remove('on','visible'));
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['h','s','r','n'][i]===tab));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['h','s','r','n','a','v'][i]===tab));
   const t=document.getElementById(map[tab]);
   t.classList.add('on');
   requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('visible')));
   if(tab==='s')renderSector();
   if(tab==='r')renderBeta();
   if(tab==='n')initNewsPicker();
+  if(tab==='v')initValuation();
 }
 requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById('th').classList.add('visible')));
 
@@ -374,12 +494,17 @@ async function loadNews(ticker){
     const data=await res.json();
     const news=data.news||[];
     if(!news.length){listEl.innerHTML='<div class="news-empty">최근 뉴스가 없습니다</div>';return;}
-    listEl.innerHTML=news.map(item=>{
+    listEl.innerHTML=news.map((item,i)=>{
       const time=timeAgo(new Date(item.datetime*1000));
-      return `<div class="news-item" onclick="window.open('${(item.url||'#').replace(/'/g,"\\'")}','_blank')">
+      const safeUrl=(item.url||'#').replace(/'/g,"\\'");
+      const safeHl=(item.headline||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+      const boxId=`newsSummaryBox_${ticker}_${i}`;
+      return `<div class="news-item">
         <div class="news-src"><span class="news-src-dot"></span>${item.source||''}</div>
-        <div class="news-title">${item.headline||''}</div>
+        <div class="news-title" onclick="window.open('${safeUrl}','_blank')">${item.headline||''}</div>
         <div class="news-time">${time}</div>
+        <button class="news-summary-btn" onclick="summarizeNewsItem('${ticker}','${safeHl}','${boxId}')">✦ AI 요약</button>
+        <div class="news-summary-box" id="${boxId}"></div>
       </div>`;
     }).join('');
     moreBtn.href=`https://finance.yahoo.com/quote/${ticker}/news/`;
@@ -396,6 +521,237 @@ function timeAgo(d){const s=(Date.now()-d)/1000;return s<3600?Math.round(s/60)+'
 
 renderStocks();
 fetchAll();
+
+// ── AI 기능 ──────────────────────────────────────────────────────────────
+function getStoredKey(){return localStorage.getItem('anthropic_key')||'';}
+function toggleApiKeyInput(){
+  const row=document.getElementById('apiKeyInputRow');
+  row.style.display=row.style.display==='none'?'block':'none';
+  if(row.style.display==='block')document.getElementById('apiKeyInput').value=getStoredKey();
+}
+function saveApiKey(){
+  const v=document.getElementById('apiKeyInput').value.trim();
+  if(v)localStorage.setItem('anthropic_key',v);
+  document.getElementById('apiKeyInputRow').style.display='none';
+  alert('저장됨. 이제 AI 분석을 실행해보세요.');
+}
+
+function mdToHtml(md){
+  return md
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^- (.+)$/gm,'<div style="padding-left:12px;margin:2px 0">• $1</div>')
+    .replace(/\n\n/g,'<br><br>')
+    .replace(/\n/g,'<br>');
+}
+
+async function runAI(action){
+  const card=document.getElementById('aiResultCard');
+  const body=document.getElementById('aiResultBody');
+  const title=document.getElementById('aiResultTitle');
+  const mock=document.getElementById('aiMockBadge');
+  const labels={analysis:'포트폴리오 종합 분석',short:'공매도 포지션 검토'};
+  title.textContent=labels[action]||'분석 결과';
+  body.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div><br>AI 분석 중...</div>';
+  card.classList.add('show');
+  mock.style.display='none';
+  card.scrollIntoView({behavior:'smooth',block:'nearest'});
+
+  try{
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action,apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    body.innerHTML=mdToHtml(data.text||'결과를 가져오지 못했습니다.');
+    if(data.mock)mock.style.display='inline';
+  }catch(e){
+    body.textContent='오류: '+e.message;
+  }
+}
+
+const chatHistory=[];
+async function sendChat(){
+  const input=document.getElementById('chatInput');
+  const btn=document.getElementById('chatSend');
+  const msgs=document.getElementById('chatMsgs');
+  const text=input.value.trim();
+  if(!text)return;
+  input.value='';btn.disabled=true;
+
+  chatHistory.push({role:'user',content:text});
+  msgs.innerHTML+=`<div class="chat-msg user">${text}</div>`;
+  msgs.innerHTML+=`<div class="chat-msg ai typing" id="typingMsg">AI가 입력 중...</div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+
+  try{
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'chat',messages:chatHistory,apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    const reply=data.text||'응답을 가져오지 못했습니다.';
+    chatHistory.push({role:'assistant',content:reply});
+    document.getElementById('typingMsg').remove();
+    msgs.innerHTML+=`<div class="chat-msg ai">${mdToHtml(reply)}</div>`;
+  }catch(e){
+    document.getElementById('typingMsg').textContent='오류: '+e.message;
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+  btn.disabled=false;
+  input.focus();
+}
+
+// ── 밸류에이션 ─────────────────────────────────────────────────────────────
+function getShares(){try{return JSON.parse(localStorage.getItem('shares')||'{}');}catch{return{};}}
+function saveSharesStore(obj){localStorage.setItem('shares',JSON.stringify(obj));}
+
+function initValuation(){
+  const picker=document.getElementById('valPicker');
+  if(picker.children.length>0)return;
+  picker.innerHTML=S.map(s=>`<button class="val-ticker-btn" onclick="selectValTicker('${s.t}')">${s.t}</button>`).join('');
+}
+
+function selectValTicker(ticker){
+  document.querySelectorAll('.val-ticker-btn').forEach(b=>b.classList.toggle('on',b.textContent===ticker));
+  loadValuation(ticker);
+}
+
+async function loadValuation(ticker){
+  const content=document.getElementById('valContent');
+  const s=S.find(x=>x.t===ticker);if(!s)return;
+  content.innerHTML='<div class="card"><div class="val-loading"><div class="ai-spinner"></div><br>데이터 불러오는 중...</div></div>';
+  try{
+    const res=await fetch(`${API_BASE}/api/valuation?symbol=${ticker}`);
+    const data=await res.json();
+    const pd=prices[ticker];
+    renderValuation(ticker,s,pd?.price||0,getShares()[ticker]||0,data);
+  }catch(e){
+    content.innerHTML=`<div class="card"><div class="val-empty">로드 실패: ${e.message}</div></div>`;
+  }
+}
+
+function renderValuation(ticker,s,price,shares,data){
+  const content=document.getElementById('valContent');
+  const m=data.metrics||{},p=data.profile||{},e=data.earnings||[],sh=data.shortData||[];
+  const pe=m.peBasicExclExtraTTM,ps=m.psTTM,pb=m.pbAnnual,ev=m.evEbitdaTTM;
+  const roe=m.roeTTM,rev=m.revenueGrowthTTMYoy;
+  const h52=m['52WeekHigh'],l52=m['52WeekLow'];
+  const mktCap=p.marketCapitalization;
+  const latestShort=sh[sh.length-1];
+  const posUsd=price&&shares?(price*shares):0;
+
+  const rangePct=(h52&&l52&&price)?Math.max(0,Math.min(100,((price-l52)/(h52-l52))*100)):null;
+
+  const epsHtml=e.slice(0,4).map(q=>{
+    const beat=(q.actual!=null&&q.estimate!=null)?q.actual>=q.estimate:null;
+    const cls=beat===true?'g':beat===false?'r':'';
+    const beatLabel=beat===true?'▲예상↑':beat===false?'▼예상↓':'';
+    return `<div class="val-eps-item">
+      <div class="val-eps-period">${(q.period||'').slice(0,7)}</div>
+      <div class="val-eps-actual ${cls}">${q.actual!=null?'$'+q.actual.toFixed(2):'N/A'}</div>
+      <div class="val-eps-beat" style="color:${beat===true?'#34c759':beat===false?'#ff3b30':'#8e8e93'}">${beatLabel}</div>
+    </div>`;
+  }).join('');
+
+  content.innerHTML=`<div class="card">
+    <div class="val-pos-hdr">
+      <div>
+        <div class="val-pos-name">${ticker} · ${s.n}</div>
+        <div class="val-pos-sub">${s.sec} · β${s.b} · 비중 ${s.w}%</div>
+      </div>
+      <div>
+        ${price?`<div class="val-pos-usd">$${price.toFixed(2)}</div>`:''}
+        ${posUsd?`<div class="val-pos-krw">≈ ₩${Math.round(posUsd*fx).toLocaleString()}</div>`:''}
+      </div>
+    </div>
+
+    <div class="val-shares-row">
+      <span class="val-shares-label">📦 보유 수량 입력</span>
+      <input class="val-shares-input" type="number" id="sharesInput_${ticker}" value="${shares||''}" placeholder="0주" min="0">
+      <button class="val-shares-save" onclick="saveShareCount('${ticker}')">저장</button>
+      ${shares&&price?`<span style="font-size:12px;color:#5856d6;font-weight:700">= $${posUsd.toFixed(0)}</span>`:''}
+    </div>
+
+    <div class="ctitle" style="margin-bottom:8px">밸류에이션 지표</div>
+    <div class="val-mgrid">
+      <div class="val-mc"><div class="val-ml">P/E (TTM)</div><div class="val-mv">${pe!=null?pe.toFixed(1):'—'}</div><div class="val-msub">주가수익비율</div></div>
+      <div class="val-mc"><div class="val-ml">P/S (TTM)</div><div class="val-mv">${ps!=null?ps.toFixed(1):'—'}</div><div class="val-msub">주가매출비율</div></div>
+      <div class="val-mc"><div class="val-ml">P/B</div><div class="val-mv">${pb!=null?pb.toFixed(1):'—'}</div><div class="val-msub">주가순자산비율</div></div>
+      <div class="val-mc"><div class="val-ml">EV/EBITDA</div><div class="val-mv">${ev!=null?ev.toFixed(1):'—'}</div><div class="val-msub">기업가치배수</div></div>
+      <div class="val-mc"><div class="val-ml">ROE</div><div class="val-mv ${roe!=null?(roe>0?'g':'r'):''}">${roe!=null?roe.toFixed(1)+'%':'—'}</div><div class="val-msub">자기자본이익률</div></div>
+      <div class="val-mc"><div class="val-ml">매출성장(YoY)</div><div class="val-mv ${rev!=null?(rev>0?'g':'r'):''}">${rev!=null?(rev*100).toFixed(1)+'%':'—'}</div><div class="val-msub">연간 성장률</div></div>
+      ${mktCap?`<div class="val-mc"><div class="val-ml">시가총액</div><div class="val-mv">$${(mktCap/1000).toFixed(2)}B</div><div class="val-msub">Market Cap</div></div>`:''}
+      ${latestShort?.shortInterestRatio!=null?`<div class="val-mc"><div class="val-ml">공매도 비율</div><div class="val-mv r">${latestShort.shortInterestRatio.toFixed(1)}일</div><div class="val-msub">Short Int. Ratio</div></div>`:''}
+    </div>
+
+    ${rangePct!=null?`<div class="val-range-wrap">
+      <div class="val-range-labels"><span>$${l52?.toFixed(2)} 52W 저</span><span style="font-weight:700">현재 $${price?.toFixed(2)}</span><span>고 $${h52?.toFixed(2)}</span></div>
+      <div class="val-range-bar"><div class="val-range-cursor" style="left:${rangePct}%"></div></div>
+      <div style="font-size:11px;color:#8e8e93;margin-top:6px;text-align:center">고점 대비 ${(((price-h52)/h52)*100).toFixed(1)}% · 저점 대비 +${(((price-l52)/l52)*100).toFixed(1)}%</div>
+    </div>`:''}
+
+    ${epsHtml?`<div><div class="ctitle" style="margin-top:8px;margin-bottom:6px">최근 EPS 실적</div><div class="val-eps-row">${epsHtml}</div></div>`:''}
+
+    <button class="val-ai-btn" onclick="runValuationAI('${ticker}')">✦ AI 밸류에이션 종합 분석</button>
+    <div class="val-ai-result" id="valAiResult_${ticker}"></div>
+  </div>`;
+}
+
+function saveShareCount(ticker){
+  const inp=document.getElementById(`sharesInput_${ticker}`);
+  if(!inp)return;
+  const shares=getShares();
+  shares[ticker]=parseFloat(inp.value)||0;
+  saveSharesStore(shares);
+  selectValTicker(ticker);
+}
+
+async function runValuationAI(ticker){
+  const s=S.find(x=>x.t===ticker);if(!s)return;
+  const resultEl=document.getElementById(`valAiResult_${ticker}`);if(!resultEl)return;
+  resultEl.classList.add('show');
+  resultEl.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div><br>AI 밸류에이션 분석 중...</div>';
+  const pd=prices[ticker];
+  const price=pd?.price||0;
+  const shares=getShares()[ticker]||0;
+  try{
+    const [valRes]=await Promise.all([fetch(`${API_BASE}/api/valuation?symbol=${ticker}`)]);
+    const valData=await valRes.json();
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'valuation-ai',symbol:ticker,name:s.n,price,shares,weight:s.w,
+        metrics:valData.metrics,profile:valData.profile,earnings:valData.earnings,shortData:valData.shortData,
+        apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    resultEl.innerHTML=(data.mock?'<em style="font-size:11px;color:#ff9500">[데모] </em>':'')+mdToHtml(data.text||'분석 실패');
+  }catch(e){
+    resultEl.innerHTML='오류: '+e.message;
+  }
+}
+
+async function summarizeNewsItem(ticker,headline,boxId){
+  const box=document.getElementById(boxId);
+  if(!box)return;
+  if(box.classList.contains('show')){box.classList.remove('show');return;}
+  box.classList.add('show');
+  box.textContent='AI 요약 중...';
+  try{
+    const res=await fetch(`${API_BASE}/api/ai`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'news-summary',ticker,headline,apiKey:getStoredKey()}),
+    });
+    const data=await res.json();
+    box.innerHTML=(data.mock?'<em style="color:#ff9500">[데모] </em>':'')+mdToHtml(data.text);
+  }catch(e){
+    box.textContent='요약 실패';
+  }
+}
 </script>
 </body>
 </html>
