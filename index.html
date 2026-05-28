@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="포트폴리오">
+<title>내 포트폴리오</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f2f2f7;color:#1c1c1e;min-height:100vh}
+.hdr{background:#fff;padding:20px 16px 14px;border-bottom:0.5px solid #e5e5ea;position:sticky;top:0;z-index:10}
+.hdr-label{font-size:13px;color:#8e8e93;margin-bottom:4px}
+.hdr-total{font-size:28px;font-weight:600;color:#1c1c1e}
+.hdr-ret{font-size:14px;color:#34c759;margin-top:3px}
+.hdr-meta{display:flex;justify-content:space-between;align-items:center}
+.hdr-ts{font-size:11px;color:#8e8e93}
+.tabs{display:flex;background:#fff;border-bottom:0.5px solid #e5e5ea;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:70px;padding:11px 4px;font-size:13px;font-weight:500;color:#8e8e93;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;white-space:nowrap}
+.tab.on{color:#007aff;border-bottom-color:#007aff}
+.sec{display:none;padding:16px}
+.sec.on{display:block}
+.mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.mc{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.ml{font-size:11px;color:#8e8e93;margin-bottom:5px}
+.mv{font-size:20px;font-weight:600;color:#1c1c1e}
+.mv.g{color:#34c759}.mv.r{color:#ff3b30}.mv.w{color:#ff9500}
+.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.ctitle{font-size:13px;color:#8e8e93;margin-bottom:14px;font-weight:500}
+.srow{display:flex;align-items:center;padding:9px 0;border-bottom:0.5px solid #f2f2f7}
+.srow:last-child{border-bottom:none}
+.stk{font-size:14px;font-weight:600;width:52px;flex-shrink:0;color:#1c1c1e}
+.sinfo{flex:1;padding:0 8px}
+.sname{font-size:12px;color:#8e8e93}
+.swt{font-size:12px;color:#34c759;margin-top:2px}
+.wbar{height:4px;background:#f2f2f7;border-radius:2px;margin-top:3px}
+.wfill{height:4px;border-radius:2px}
+.sprice{font-size:14px;font-weight:600;color:#1c1c1e;text-align:right}
+.secrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid #f2f2f7}
+.secrow:last-child{border-bottom:none}
+.secdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.secname{font-size:14px;color:#1c1c1e;flex:1}
+.secpct{font-size:14px;font-weight:600;color:#1c1c1e;width:40px;text-align:right}
+.secbar{flex:1;height:5px;background:#f2f2f7;border-radius:3px}
+.secfill{height:5px;border-radius:3px}
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:12px}
+.li{display:flex;align-items:center;gap:7px;font-size:12px;color:#8e8e93}
+.ldot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:0.5px solid #f2f2f7}
+.rrow:last-child{border-bottom:none}
+.rlabel{font-size:14px;color:#8e8e93}
+.rval{font-size:14px;font-weight:600;color:#1c1c1e}
+.badge{font-size:12px;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;font-weight:500}
+.badge.red{background:#fff0f0;color:#ff3b30}
+.rbitem{padding:11px 0;border-bottom:0.5px solid #f2f2f7}
+.rbitem:last-child{border-bottom:none}
+.rba{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:5px}
+.rba.sell{background:#fff0f0;color:#ff3b30}
+.rba.buy{background:#f0fff4;color:#34c759}
+.rba.hold{background:#f0f5ff;color:#007aff}
+.rbtitle{font-size:14px;font-weight:600;color:#1c1c1e;margin:4px 0}
+.rbdesc{font-size:12px;color:#8e8e93;line-height:1.5}
+.irow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid #f2f2f7}
+.irow:last-child{border-bottom:none}
+.itk{font-size:14px;font-weight:600;width:52px;flex-shrink:0;color:#1c1c1e}
+.inm{font-size:12px;color:#8e8e93;flex:1}
+.iinput{width:88px;font-size:14px;padding:6px 8px;border:1px solid #e5e5ea;border-radius:8px;background:#fff;color:#1c1c1e;text-align:right;-webkit-appearance:none}
+.iinput:focus{outline:none;border-color:#007aff}
+.savebtn{width:100%;margin-top:14px;padding:14px;font-size:16px;font-weight:600;border-radius:12px;cursor:pointer;background:#007aff;color:#fff;border:none;-webkit-appearance:none}
+.savebtn:active{background:#0062cc}
+.chartbox{position:relative;width:100%;height:240px;margin:8px 0}
+.donutbox{position:relative;width:100%;height:200px}
+.fxrow{margin-top:14px;padding-top:14px;border-top:0.5px solid #f2f2f7}
+.fxlabel{font-size:12px;color:#8e8e93;margin-bottom:6px}
+</style>
+</head>
+<body>
+ 
+<div class="hdr">
+  <div class="hdr-meta">
+    <div class="hdr-label">내 포트폴리오</div>
+    <span class="hdr-ts" id="ts"></span>
+  </div>
+  <div class="hdr-total" id="totalDisp">₩28,940,000</div>
+  <div class="hdr-ret">+₩12,640,000 (+77.08%)</div>
+</div>
+ 
+<div class="tabs">
+  <button class="tab on" onclick="sw('h')">보유종목</button>
+  <button class="tab" onclick="sw('s')">섹터분석</button>
+  <button class="tab" onclick="sw('r')">리스크</button>
+  <button class="tab" onclick="sw('e')">시세입력</button>
+</div>
+ 
+<div id="th" class="sec on">
+  <div class="mgrid">
+    <div class="mc"><div class="ml">총 평가금액</div><div class="mv">₩2,894만</div></div>
+    <div class="mc"><div class="ml">총 수익률</div><div class="mv g">+77.1%</div></div>
+    <div class="mc"><div class="ml">USD/KRW</div><div class="mv" id="fxShow">1,382</div></div>
+    <div class="mc"><div class="ml">가중 베타</div><div class="mv w">2.40</div></div>
+  </div>
+  <div class="card"><div class="ctitle">보유 종목</div><div id="stockList"></div></div>
+</div>
+ 
+<div id="ts2" class="sec">
+  <div class="card">
+    <div class="ctitle">섹터별 비중</div>
+    <div class="donutbox"><canvas id="dc"></canvas></div>
+    <div class="lgrid" id="lg"></div>
+  </div>
+  <div class="card"><div class="ctitle">섹터 상세</div><div id="sd"></div></div>
+</div>
+ 
+<div id="tr" class="sec">
+  <div class="card">
+    <span class="badge red">⚠ 고변동성 포트폴리오</span>
+    <div class="ctitle">리스크 지표</div>
+    <div class="rrow"><span class="rlabel">가중평균 베타</span><span class="rval w" style="color:#ff9500">2.40</span></div>
+    <div class="rrow"><span class="rlabel">S&P500 -10% 시 예상손실</span><span class="rval" style="color:#ff3b30">약 -24%</span></div>
+    <div class="rrow"><span class="rlabel">최대 단일 비중</span><span class="rval" style="color:#ff9500">RDW 15.1%</span></div>
+    <div class="rrow"><span class="rlabel">상위 2테마 집중도</span><span class="rval" style="color:#ff9500">62.4%</span></div>
+    <div class="rrow"><span class="rlabel">최고 베타 종목</span><span class="rval" style="color:#ff3b30">PGY 5.44</span></div>
+    <div class="rrow"><span class="rlabel">실효 종목 수</span><span class="rval">약 6~8개</span></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">종목별 베타</div>
+    <div class="chartbox"><canvas id="bc"></canvas></div>
+  </div>
+  <div class="card"><div class="ctitle">리밸런싱 제안</div><div id="rbl"></div></div>
+</div>
+ 
+<div id="te" class="sec">
+  <div class="card">
+    <div class="ctitle">현재가 입력 (USD) — 저장 후 자동 계산</div>
+    <div id="editList"></div>
+    <div class="fxrow">
+      <div class="fxlabel">USD/KRW 환율</div>
+      <input id="fxInput" type="number" class="iinput" style="width:100%" placeholder="예: 1382" value="1382">
+    </div>
+    <button class="savebtn" onclick="save()">저장 및 업데이트</button>
+  </div>
+</div>
+ 
+<script>
+const S=[
+  {t:'RDW',n:'Redwire',w:15.1,sec:'우주·방산',b:2.42},
+  {t:'IONQ',n:'IonQ',w:8.7,sec:'AI·양자',b:3.05},
+  {t:'RKLB',n:'Rocket Lab',w:8.7,sec:'우주·방산',b:2.31},
+  {t:'LUNR',n:'Intuitive Machines',w:7.8,sec:'우주·방산',b:1.47},
+  {t:'달러',n:'USD 현금',w:6.6,sec:'현금',b:0},
+  {t:'FLNC',n:'Fluence Energy',w:6.6,sec:'에너지·DC',b:2.62},
+  {t:'BBAI',n:'BigBear.ai',w:6.2,sec:'AI·양자',b:3.05},
+  {t:'NVDA',n:'NVIDIA',w:5.4,sec:'빅테크',b:2.24},
+  {t:'PL',n:'Planet Labs',w:5.0,sec:'우주·방산',b:1.91},
+  {t:'ITA',n:'iShares A&D ETF',w:3.6,sec:'우주·방산',b:0.73},
+  {t:'PLTR',n:'Palantir',w:3.5,sec:'AI·양자',b:1.52},
+  {t:'META',n:'Meta',w:3.2,sec:'빅테크',b:1.24},
+  {t:'WULF',n:'TeraWulf',w:2.6,sec:'에너지·DC',b:4.28},
+  {t:'RGTI',n:'Rigetti',w:2.6,sec:'AI·양자',b:1.80},
+  {t:'PGY',n:'Pagaya',w:2.6,sec:'핀테크',b:5.44},
+  {t:'IREN',n:'IREN',w:1.9,sec:'에너지·DC',b:4.18},
+  {t:'CLS',n:'Celestica',w:1.9,sec:'에너지·DC',b:1.48},
+  {t:'JOBY',n:'Joby Aviation',w:1.5,sec:'eVTOL',b:2.61},
+  {t:'AMZN',n:'Amazon',w:1.4,sec:'빅테크',b:1.47},
+  {t:'TEM',n:'Tempus AI',w:1.2,sec:'AI·양자',b:2.0},
+];
+const SC={'우주·방산':'#007aff','AI·양자':'#5856d6','빅테크':'#34c759','에너지·DC':'#ff9500','핀테크':'#ff2d55','현금':'#8e8e93','eVTOL':'#00c7be'};
+const RB=[
+  {a:'매도',c:'sell',ti:'RDW 15.1% → 8~10%',d:'YTD +129% 급등 후 차익실현 적기. 단일 종목 10% 초과 주의.'},
+  {a:'매도',c:'sell',ti:'RGTI 매도 → IONQ 통합',d:'양자 합산 11.3% → 7%로 압축. IONQ 자금력 우위.'},
+  {a:'매도',c:'sell',ti:'WULF 또는 IREN 정리',d:'베타 4+ 두 종목 동시 보유. 하나로 통합 권장.'},
+  {a:'매수',c:'buy',ti:'현금 6.6% → 10~12%',d:'변동성 완충 강화 + USD 현금으로 환헤지 효과.'},
+  {a:'매수',c:'buy',ti:'ITA 3.6% → 5~7%',d:'방산 노출 유지하며 베타 0.73으로 변동성 절반.'},
+  {a:'검토',c:'hold',ti:'QQQ/VTI 5~7% 편입',d:'광역 ETF로 가중 베타 2.4 → 2.0 이하 목표.'},
+];
+let prices={},fx=1382;
+function sw(tab){
+  const map={h:'th',s:'ts2',r:'tr',e:'te'};
+  document.querySelectorAll('.sec').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['h','s','r','e'][i]===tab));
+  document.getElementById(map[tab]).classList.add('on');
+  if(tab==='s')renderSector();
+  if(tab==='r')renderBeta();
+}
+function save(){
+  document.querySelectorAll('.iinput[data-t]').forEach(inp=>{
+    const v=parseFloat(inp.value);
+    if(!isNaN(v)&&v>0)prices[inp.dataset.t]=v;
+  });
+  const fv=parseFloat(document.getElementById('fxInput').value);
+  if(!isNaN(fv)&&fv>0){
+    fx=fv;
+    document.getElementById('fxShow').textContent=Math.round(fx).toLocaleString();
+  }
+  try{localStorage.setItem('pf',JSON.stringify({prices,fx}));}catch(e){}
+  renderStocks();
+  sw('h');
+}
+function load(){
+  try{
+    const d=JSON.parse(localStorage.getItem('pf')||'{}');
+    if(d.prices)prices=d.prices;
+    if(d.fx)fx=d.fx;
+  }catch(e){}
+}
+function renderStocks(){
+  document.getElementById('stockList').innerHTML=S.map(s=>{
+    const p=prices[s.t];
+    const col=SC[s.sec]||'#8e8e93';
+    const bw=Math.min(100,Math.round(s.w*5.5));
+    return `<div class="srow">
+      <span class="stk">${s.t}</span>
+      <div class="sinfo">
+        <div class="sname">${s.n}</div>
+        <div class="swt">${s.w.toFixed(1)}%</div>
+        <div class="wbar"><div class="wfill" style="width:${bw}%;background:${col}"></div></div>
+      </div>
+      <div class="sprice">${p?'$'+p.toFixed(2):'-'}</div>
+    </div>`;
+  }).join('');
+}
+function renderEdit(){
+  document.getElementById('editList').innerHTML=S.filter(s=>s.t!=='달러').map(s=>`
+    <div class="irow">
+      <span class="itk">${s.t}</span>
+      <span class="inm">${s.n}</span>
+      <input class="iinput" data-t="${s.t}" type="number" step="0.01" placeholder="USD" value="${prices[s.t]?prices[s.t].toFixed(2):''}">
+    </div>
+  `).join('');
+}
+function renderSector(){
+  const m={};
+  S.forEach(s=>m[s.sec]=(m[s.sec]||0)+s.w);
+  const entries=Object.entries(m).sort((a,b)=>b[1]-a[1]);
+  const cols=entries.map(([k])=>SC[k]||'#8e8e93');
+  if(window._dc)window._dc.destroy();
+  window._dc=new Chart(document.getElementById('dc'),{
+    type:'doughnut',
+    data:{labels:entries.map(([k])=>k),datasets:[{data:entries.map(([,v])=>+v.toFixed(1)),backgroundColor:cols,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.label}: ${c.parsed.toFixed(1)}%`}}}}
+  });
+  document.getElementById('lg').innerHTML=entries.map(([k,v])=>`<div class="li"><span class="ldot" style="background:${SC[k]||'#8e8e93'}"></span>${k} ${v.toFixed(1)}%</div>`).join('');
+  document.getElementById('sd').innerHTML=entries.map(([k,v])=>`
+    <div class="secrow">
+      <span class="secdot" style="background:${SC[k]||'#8e8e93'}"></span>
+      <span class="secname">${k}</span>
+      <div class="secbar"><div class="secfill" style="width:${Math.min(100,v*2.2)}%;background:${SC[k]||'#8e8e93'}"></div></div>
+      <span class="secpct">${v.toFixed(1)}%</span>
+    </div>
+  `).join('');
+}
+function renderBeta(){
+  const sorted=[...S].filter(s=>s.t!=='달러').sort((a,b)=>b.b-a.b);
+  const cols=sorted.map(s=>s.b>=3?'#ff3b30':s.b>=2?'#ff9500':'#007aff');
+  if(window._bc)window._bc.destroy();
+  window._bc=new Chart(document.getElementById('bc'),{
+    type:'bar',
+    data:{labels:sorted.map(s=>s.t),datasets:[{data:sorted.map(s=>s.b),backgroundColor:cols,borderWidth:0,borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`β ${c.parsed.x.toFixed(2)}`}}},scales:{x:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10},color:'#8e8e93'}},y:{ticks:{font:{size:10},color:'#8e8e93'}}}}
+  });
+}
+function renderRebal(){
+  document.getElementById('rbl').innerHTML=RB.map(r=>`
+    <div class="rbitem">
+      <span class="rba ${r.c}">${r.a}</span>
+      <div class="rbtitle">${r.ti}</div>
+      <div class="rbdesc">${r.d}</div>
+    </div>
+  `).join('');
+}
+const now=new Date();
+document.getElementById('ts').textContent=`${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')} 기준`;
+load();
+renderStocks();
+renderEdit();
+renderRebal();
+</script>
+</body>
+</html>
